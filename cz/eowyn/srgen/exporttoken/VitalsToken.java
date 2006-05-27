@@ -14,31 +14,31 @@ public class VitalsToken extends Token {
 		String ret = tokenSource;
 		
 		if (tokenSource.equals("VITALS.EYES")) {
-			ret = pc.getString (pc.STR_EYES);
+			ret = pc.getString (PlayerCharacter.STR_EYES);
 		}
 		else if (tokenSource.equals("VITALS.HAIR")) {
-			ret = pc.getString (pc.STR_HAIR);
+			ret = pc.getString (PlayerCharacter.STR_HAIR);
 		}
 		else if (tokenSource.equals("VITALS.HEIGHT")) {
-			ret = pc.getString (pc.STR_HEIGHT) + " cm";
+			ret = pc.getString (PlayerCharacter.STR_HEIGHT) + " cm";
 		}
 		else if (tokenSource.equals("VITALS.WEIGHT")) {
-			ret = pc.getString (pc.STR_WEIGHT) + " kg";
+			ret = pc.getString (PlayerCharacter.STR_WEIGHT) + " kg";
 		}
 		else if (tokenSource.equals("VITALS.BIRTHDATE")) {
-			ret = pc.getString (pc.STR_BIRTHDATE);
+			ret = pc.getString (PlayerCharacter.STR_BIRTHDATE);
 		}
 		else if (tokenSource.equals("VITALS.BIRTHPLACE")) {
-			ret = pc.getString (pc.STR_BIRTHPLACE);
+			ret = pc.getString (PlayerCharacter.STR_BIRTHPLACE);
 		}
 		else if (tokenSource.equals("VITALS.RACE")) {
-			ret = pc.getString (pc.STR_RACE);
+			ret = pc.getString (PlayerCharacter.STR_RACE);
 		}
 		else if (tokenSource.equals("VITALS.AGE")) {
-			ret = pc.getString (pc.STR_AGE);
+			ret = pc.getString (PlayerCharacter.STR_AGE);
 		}
 		else if (tokenSource.equals("VITALS.SEX")) {
-			ret = pc.getString (pc.STR_SEX);
+			ret = pc.getString (PlayerCharacter.STR_SEX);
 		}
 		return ret;
 	}
