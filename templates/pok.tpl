@@ -109,16 +109,16 @@
     </tr>
 
  	<tr>
-	   <td class="h">|TOTALLEVELS|</td>
-	   <td class="h">|EXP.NEXT|</td>
+	   <td class="h">|KARMA.TOTAL|</td>
+	   <td class="h">|KARMA.FREE|</td>
 	   <td class="h">|VITALS.AGE|</td>
 	   <td class="h">|VITALS.SEX|</td>
 	   <td class="h">|VITALS.EYES|</td>
 	   <td colspan="2" class="h">|VITALS.HAIR|</td>
     </tr>
     <tr>
-      <td class="topline">LEVEL</td>
-      <td class="topline">NEXT LEVEL</td>
+      <td class="topline">TOTAL KARMA</td>
+      <td class="topline">FREE KARMA</td>
       <td class="topline">AGE</td>
       <td class="topline">GENDER</td>
       <td class="topline">EYES</td>
@@ -174,11 +174,19 @@
         </tr>
       </table>
 
-<table>
-|FOR,%index,0,5,1,1|
+<table cellpadding="0" cellspacing="0" border="0" width="100%" summary="Edges and Flaws Table">
+    <tr>
+     <td height="30" bgcolor="black" align="center"><font style="font-size: 9pt" color="white"><b>EDGES &amp; FLAWS</b></font></td>
+     <td height="30" bgcolor="black" align="center"></td>
+    </tr>
+    <tr>
+     <td align="center" width="60%" class="border4">E/F NAME</td>
+     <td align="center" width="40%" class="border4">TYPE</td>
+    </tr>
+|FOR,%index,0,EDGE.COUNT,1,0|
 |OIF(EVEN:%index,<tr bgcolor="#DDDDDD">,<tr bgcolor="white">)|
-  <td>|EDGE.%index.NAME|</td>
-  <td>|EDGE.%index.EORF|</td>
+  <td align="left" class="font8">|EDGE.%index.NAME|</td>
+  <td align="left" class="borderbottom8" valign="bottom">|EDGE.%index.EORF|</td>
 </tr>
 |ENDFOR|
 </table>
@@ -203,6 +211,25 @@
 |ENDFOR|
    </table>
 <!-- STOP Skills Table -->
+
+<!-- START Vehicles Table -->
+   <table cellpadding="0" cellspacing="0" border="0" width="100%" summary="Vehicles Table">
+    <tr>
+     <td height="30" bgcolor="black" align="center"><font style="font-size: 9pt" color="white"><b>VEHICLES</b></font></td>
+     <td height="30" bgcolor="black" align="center"></td>
+    </tr>
+    <tr>
+     <td align="center" width="60%" class="border4">VEHICLE NAME</td>
+     <td align="center" width="40%" class="border4">MODIFIER</td>
+    </tr>
+|FOR,%index,0,VEHICLE.COUNT,1,0|
+|OIF(EVEN:%index,<tr bgcolor="#DDDDDD">,<tr bgcolor="white">)|
+     <td align="left" class="font8">&nbsp;&nbsp;|VEHICLE.%index.NAME|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|VEHICLE.%index.ST|</td>
+    </tr>
+|ENDFOR|
+   </table>
+<!-- STOP Vehicles Table -->
 
   </body>
 </html>

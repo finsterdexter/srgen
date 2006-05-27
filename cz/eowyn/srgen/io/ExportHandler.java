@@ -45,12 +45,13 @@ public class ExportHandler {
 	protected void populateTokenMap() {
 		if (tokenMap.isEmpty()) {
 			addToTokenMap (new AttrToken ());
+			addToTokenMap (new EdgeToken ());
 			addToTokenMap (new ExportToken ());
+			addToTokenMap (new KarmaToken ());
 			addToTokenMap (new NameToken ());
 			addToTokenMap (new PoolsToken ());
-			addToTokenMap (new VitalsToken ());
-			addToTokenMap (new EdgeToken ());
 			addToTokenMap (new SkillToken ());
+			addToTokenMap (new VitalsToken ());
 		}
 	}
 	

@@ -14,23 +14,23 @@ public class NameToken extends Token {
 
 	public String getToken(String tokenSource, PlayerCharacter pc) {
 		if (tokenSource.equals("NAME.CHAR")) {
-			return pc.getString (pc.STR_CHARNAME);
+			return pc.getString (PlayerCharacter.STR_CHARNAME);
 		}
 		else if (tokenSource.equals("NAME.REAL")) {
-			return pc.getString (pc.STR_REALNAME);
+			return pc.getString (PlayerCharacter.STR_REALNAME);
 		}
 		else if (tokenSource.equals("NAME.PLAYER")) {
-			return pc.getString (pc.STR_PLAYERNAME);
+			return pc.getString (PlayerCharacter.STR_PLAYERNAME);
 		}
 		else if (tokenSource.equals("NAME.STREET")) {
 			// FIXME: we should return street name based on index given 
-			return pc.getString (pc.STR_STREETNAME1);
+			return pc.getString (PlayerCharacter.STR_STREETNAME1);
 		}
 		else if (tokenSource.equals("NAME.ARCHETYPE")) {
-			return pc.getString (pc.STR_ARCHETYPE);
+			return pc.getString (PlayerCharacter.STR_ARCHETYPE);
 		}
 		else {
-			return pc.getString (pc.STR_CHARNAME);
+			return pc.getString (PlayerCharacter.STR_CHARNAME);
 		}
 	}
 

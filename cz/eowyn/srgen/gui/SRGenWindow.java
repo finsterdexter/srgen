@@ -25,16 +25,8 @@ public class SRGenWindow extends JFrame {
 	private PlayerCharacter pc;
 	
 	private JMenuBar main_menubar = null;
-	private JPanel summaryPanel = null;
-	private JPanel jContentPane = null;
 	private JTabbedPane tabbedPane = null;
 	
-	private JSplitPane jSplitPane = null;
-	private JPanel leftPanel = null;
-	private JPanel commonPanel = null;
-	private JLabel jLabelName = null;
-	private JTextField jTextName = null;
-
 	private JFileChooser openFileChooser = null;
 	private JFileChooser exportFileChooser = null;
 	
@@ -90,6 +82,7 @@ public class SRGenWindow extends JFrame {
 		}
 		return main_menubar;
 	}
+	
     private JMenu getFile_menu (){
         JMenu file_menu = new JMenu ("File");
 
@@ -139,11 +132,11 @@ public class SRGenWindow extends JFrame {
                 System.exit(0);
             }
         });
-        file_menu.add(new_menu);
-        file_menu.add(open_menu);
-        file_menu.add(save_menu);
-        file_menu.add(export_menu);
-        file_menu.add(quit_menu);
+        file_menu.add (new_menu);
+        file_menu.add (open_menu);
+        file_menu.add (save_menu);
+        file_menu.add (export_menu);
+        file_menu.add (quit_menu);
         return file_menu;
     }
     
@@ -162,46 +155,25 @@ public class SRGenWindow extends JFrame {
 //        return treasure_menu;
 //    }
 
-    /**
-     * This method initializes jContentPane
-     *
-     * @return javax.swing.JPanel
-     */
-//    private javax.swing.JPanel getJContentPane() {
-//        if (jContentPane == null) {
-//            jContentPane = new javax.swing.JPanel();
-//            jContentPane.setLayout (new java.awt.BorderLayout());
-//            jContentPane.add(getJSplitPane(), java.awt.BorderLayout.NORTH);
-//        }
-//        return jContentPane;
-//    }
-
     private JTabbedPane getTabbedPane() {
 
-    	JTabbedPane tabbedPane2 = new JTabbedPane();
+    	JTabbedPane tabbedPane = new JTabbedPane();
             //treasures_jtabbedpane.setPreferredSize(
             //    new java.awt.Dimension(450, 500));
 
-    	tabbedPane2.setTabPlacement (Config.getPCTabPlacement());
-    	JTabbedPane tab2 = getTabbedPane2 ();
+    	tabbedPane.setTabPlacement (Config.getPCTabPlacement());
 
-        tabbedPane2.addTab(
-                pc.getString (PlayerCharacter.STR_CHARNAME),
-                null,
-                tab2,
-                "");
-        tabbedPane2.addTab(
-                "XXX" + pc.getString (PlayerCharacter.STR_CHARNAME),
-                null,
-                null,
-                "");
-        tabbedPane2.addTab(
-                null,
-                null,
-                null,
-                "");
-        
-        return tabbedPane2;
+    	Iterator pcIter = generator.getCharacters().iterator();
+    	while (pcIter.hasNext ()) {
+    		PlayerCharacter pc = (PlayerCharacter) pcIter.next ();
+    		
+    		tabbedPane.addTab(
+    				pc.getString (PlayerCharacter.STR_CHARNAME),
+    				null,
+    				getCharacterPane (pc),
+    				"");
+    	}        
+        return tabbedPane;
     }
     
     /**
@@ -209,62 +181,62 @@ public class SRGenWindow extends JFrame {
      *
      * @return javax.swing.JTabbedPane
      */
-    private JTabbedPane getTabbedPane2() {
-        if (tabbedPane == null) {
-        	JTabbedPane equipmentPane = null;
+    private JTabbedPane getCharacterPane (PlayerCharacter pc) {
+    	JTabbedPane tabbedPane = new JTabbedPane();
+    	JTabbedPane equipmentPane = null;
 
-        	tabbedPane = new JTabbedPane();
-            //treasures_jtabbedpane.setPreferredSize(
-            //    new java.awt.Dimension(450, 500));
+    	//treasures_jtabbedpane.setPreferredSize(
+    	//    new java.awt.Dimension(450, 500));
 
-            TreePanel  SourceBooks_Tab = new TreePanel (repository.getSourceBooks_Tree(), new RepositoryList());
-            TreePanel  EdgeAndFlaw_Tab = new TreePanel (repository.getEdgeAndFlaw_Tree(), pc.getEdgeAndFlaw_List());
-            TreePanel  Skill_Tab = new TreePanel (repository.getSkill_Tree(), pc.getSkill_List());
-            TreePanel  Contacts_Tab = new TreePanel (repository.getContacts_Tree(), pc.getContact_List());
-            //TreePanel  Spell_Tab = new TreePanel (repository.getSpell_Tree());
-            //TreePanel  Equipment_Tab = new TreePanel (repository.getEquipment_Tree());
-            TreePanel  Gear_Tab = new TreePanel (repository.getGear_Tree(), pc.getGear_List());
-            TreePanel  Cyberware_Tab = new TreePanel (repository.getCyberware_Tree(), pc.getCyberware_List());
-            TreePanel  Bioware_Tab = new TreePanel (repository.getBioware_Tree(), pc.getBioware_List ());
-            TreePanel  Vehicles_Tab = new TreePanel (repository.getVehicles_Tree(), pc.getVehicle_List());
-            TreePanel  Decks_Tab = new TreePanel (repository.getDecks_Tree(), pc.getDeck_List());
-
-            SummaryPanel summaryPanel = new SummaryPanel (pc);
+    	TreePanel  SourceBooks_Tab = new TreePanel (repository.getSourceBooks_Tree(), new RepositoryList());
+    	TreePanel  EdgeAndFlaw_Tab = new TreePanel (repository.getEdgeAndFlaw_Tree(), pc.getEdgeAndFlaw_List());
+    	TreePanel  Skill_Tab = new TreePanel (repository.getSkill_Tree(), pc.getSkill_List());
+    	TreePanel  Contacts_Tab = new TreePanel (repository.getContacts_Tree(), pc.getContact_List());
+    	//TreePanel  Spell_Tab = new TreePanel (repository.getSpell_Tree());
+    	//TreePanel  Equipment_Tab = new TreePanel (repository.getEquipment_Tree());
+    	TreePanel  Gear_Tab = new TreePanel (repository.getGear_Tree(), pc.getGear_List());
+    	TreePanel  Cyberware_Tab = new TreePanel (repository.getCyberware_Tree(), pc.getCyberware_List());
+    	TreePanel  Bioware_Tab = new TreePanel (repository.getBioware_Tree(), pc.getBioware_List ());
+    	TreePanel  Vehicles_Tab = new TreePanel (repository.getVehicles_Tree(), pc.getVehicle_List());
+    	TreePanel  Decks_Tab = new TreePanel (repository.getDecks_Tree(), pc.getDeck_List());
+    	
+    	SummaryPanel summaryPanel = new SummaryPanel (pc);
+    	PreviewPane Preview_Tab = new PreviewPane (pc); 
             
-            addPCListener (summaryPanel);
+    	addPCListener (summaryPanel);
 
-            tabbedPane.addTab(
-                    "Summary",
-                    null,
-                    summaryPanel,
-                    "Sum...");
+    	tabbedPane.addTab(
+    			"Summary",
+    			null,
+    			summaryPanel,
+    			"Sum...");
 
-            tabbedPane.addTab(
-                    "Source Books",
-                    null,
-                    SourceBooks_Tab,
-                    "add/rem sources");
+    	tabbedPane.addTab(
+    			"Source Books",
+    			null,
+    			SourceBooks_Tab,
+    			"add/rem sources");
 
-            tabbedPane.addTab(
-                    "Edges & Flaws",
-                    null,
-                    EdgeAndFlaw_Tab,
-                    "add/rem edges and flaws");
+    	tabbedPane.addTab(
+    			"Edges & Flaws",
+    			null,
+    			EdgeAndFlaw_Tab,
+    			"add/rem edges and flaws");
 
-            tabbedPane.addTab(
-                    "Skills",
-                    null,
-                    Skill_Tab,
-                    "add/rem skills");
+    	tabbedPane.addTab(
+    			"Skills",
+    			null,
+    			Skill_Tab,
+    			"add/rem skills");
 
-            tabbedPane.addTab(
-                    "Contacts",
-                    null,
-                    Contacts_Tab,
-                    "add/rem contacts");
+    	tabbedPane.addTab(
+    			"Contacts",
+    			null,
+    			Contacts_Tab,
+    			"add/rem contacts");
 
             
-            equipmentPane = new javax.swing.JTabbedPane();
+    	equipmentPane = new javax.swing.JTabbedPane();
 /*
             tabbedPane.addTab(
                     "Spells",
@@ -273,44 +245,49 @@ public class SRGenWindow extends JFrame {
                     "add/rem spells");
 */
 
-            equipmentPane.addTab(
-                    "Gear",
-                    null,
-                    Gear_Tab,
-                    "add/rem gear");
+    	equipmentPane.addTab(
+    			"Gear",
+    			null,
+    			Gear_Tab,
+    			"add/rem gear");
             
-            equipmentPane.addTab(
-                    "Cyberware",
-                    null,
-                    Cyberware_Tab,
-                    "add/rem equipment");
+    	equipmentPane.addTab(
+    			"Cyberware",
+    			null,
+    			Cyberware_Tab,
+    			"add/rem equipment");
 
-            equipmentPane.addTab(
-                    "Bioware",
-                    null,
-                    Bioware_Tab,
-                    "add/rem equipment");
+    	equipmentPane.addTab(
+    			"Bioware",
+    			null,
+    			Bioware_Tab,
+    			"add/rem equipment");
             
-            equipmentPane.addTab(
-                    "Vehicles",
-                    null,
-                    Vehicles_Tab,
-                    "add/rem equipment");
+    	equipmentPane.addTab(
+    			"Vehicles",
+    			null,
+    			Vehicles_Tab,
+    			"add/rem equipment");
 
-            equipmentPane.addTab(
-                    "Decks",
-                    null,
-                    Decks_Tab,
-                    "add/rem equipment");
+    	equipmentPane.addTab(
+    			"Decks",
+    			null,
+    			Decks_Tab,
+    			"add/rem equipment");
 
 
-            tabbedPane.addTab(
-                    "Equipment",
-                    null,
-                    equipmentPane,
-                    "add/rem equipment");
+    	tabbedPane.addTab(
+    			"Equipment",
+    			null,
+    			equipmentPane,
+    			"add/rem equipment");
         
-        }
+    	tabbedPane.addTab(
+    			"Preview",
+    			null,
+    			Preview_Tab,
+    			"Character sheet preview");
+        
         return tabbedPane;
     }
 
@@ -342,33 +319,6 @@ public class SRGenWindow extends JFrame {
 //         return leftPanel;
 //     }
      
-     
-     private javax.swing.JPanel getCommonPane(){
-         if (commonPanel == null){
-             commonPanel = new javax.swing.JPanel();
-             commonPanel.setLayout(null);
-             commonPanel.setPreferredSize(new java.awt.Dimension(255,170));
-             //commonPanel.add(getNew_radiobutton(), null);
-             //commonPanel.add(getAdd_radiobutton(), null);
-             //commonPanel.add(getGenerateTreasure_button(), null);
-         }
-         return commonPanel;
-     }
-
-     /**
-      * This method initializes jLabel4
-      *
-      * @return javax.swing.JLabel
-      */
-     private javax.swing.JLabel getLabelName() {
-         if (jLabelName == null) {
-             jLabelName = new javax.swing.JLabel();
-             //jLabelName.setSize(60, 26);
-             jLabelName.setText("Name");
-             //jLabelName.setLocation(150, 290);
-         }
-         return jLabelName;
-     }
      
      public void addPCListener (PCListener listener) {
     	 pcListeners.add (listener);

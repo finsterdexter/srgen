@@ -12,12 +12,14 @@ public class AppInit {
 		
 		Generator generator = new Generator ();
 		if (args.length > 0) {
-			generator.loadCharacter (args[0]);
+			for (int i = 0; i < args.length; i++) {
+				generator.loadCharacter (args[i]);
+			}
 		} else {
 			generator.newCharacter ();
 		}
-		//SRGenWindow window = new SRGenWindow (generator);
-		//window.show ();
+		SRGenWindow window = new SRGenWindow (generator);
+		window.show ();
 	}
 
 }
