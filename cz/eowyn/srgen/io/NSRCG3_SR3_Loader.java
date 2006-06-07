@@ -35,12 +35,13 @@ import cz.eowyn.srgen.model.Cyberware;
 import cz.eowyn.srgen.model.Deck;
 import cz.eowyn.srgen.model.EdgeAndFlaw;
 import cz.eowyn.srgen.model.Gear;
+import cz.eowyn.srgen.model.MageGear;
 import cz.eowyn.srgen.model.Lifestyle;
 import cz.eowyn.srgen.model.PlayerCharacter;
 import cz.eowyn.srgen.model.Repository;
 import cz.eowyn.srgen.model.Skill;
+import cz.eowyn.srgen.model.Spell;
 import cz.eowyn.srgen.model.Vehicle;
-
 
 /**
  * @author benkovsk
@@ -85,7 +86,7 @@ public class NSRCG3_SR3_Loader {
 		String[] attrKeys = { "Body", "Quickness", "Strength", "Charisma", "Intelligence", "Willpower" };  
 		for (int i = 0; i < 6; i++) {
 			String[] attrValues = (getString ("Attributes." + attrKeys[i])).split ("\\|", -1);
-			for (int j=0; j < 5; j++) {
+			for (int j=0; j < 4; j++) {
 				pc.setStat (PlayerCharacter.STAT_BOD_BASE + 5 * i + j, Integer.parseInt (attrValues[j].replace ("+", "")));
 			}
 		}
@@ -211,19 +212,46 @@ public class NSRCG3_SR3_Loader {
 			pc.AddGear(obj, "", false);
 		}
 		
+		// Gears
+		for (int index = 0; ; index++) {
+			String value_raw = getIndexedString ("Magic.MageGear", index, null);
+			if (value_raw == null) {
+				break;
+			}
+			String[] fields = value_raw.replace('_', ' ').split("~", -1);
+			String[] fields2 = fields[1].split("\\|", -1);
+			NSRCG3_Format format = repository.getMageGearFormat (fields2[0]);
+			Hashtable values = new Hashtable ();
+			//values.put ("Name", fields[0]);
+			if (format != null) {
+				values.putAll (format.getValuesMap (fields2));
+			} else {
+				values.put ("Data", fields[1]);
+			}
+			MageGear obj = new MageGear (fields[0], values);
+			
+			pc.AddMageGear (obj, "", false);
+		}
+		
 		// Cyberware
 		for (int index = 0; ; index++) {
 			String value_raw = getIndexedString ("Cyberware.Cyber", index, null);
 			if (value_raw == null) {
 				break;
 			}
-			String[] fields = value_raw.replace('_', ' ').split("~", -1);
+			String[] fields = value_raw.replace ('_', ' ').split ("~", -1);
 			Hashtable values = new Hashtable ();
 			values.put ("Name", fields[0]);
 			values.put ("EssCost", fields[1]);
 			values.put ("$Cost", fields[2]);
 			values.put ("Book.Page", fields[3]);
-			Cyberware obj = new Cyberware(fields[0], values);
+			values.put ("Mods", fields[4]);
+			values.put ("LegalCode", fields[5]);
+			values.put ("Notes", fields[6]);
+			values.put ("??", fields[7]);
+			values.put ("slot", fields[8]);
+			values.put ("Availability", fields[9]);
+			Cyberware obj = new Cyberware (fields[0], values);
 			
 			pc.AddCyberware(obj, "", false);
 		}
@@ -236,22 +264,65 @@ public class NSRCG3_SR3_Loader {
 			if (value_raw == null) {
 				break;
 			}
-			String[] fields = value_raw.replace('_', ' ').split("~", -1);
-			String[] fields2 = fields[1].split("\\|", -1);
+			String[] fields = value_raw.replace ('_', ' ').split ("~", -1);
+			String[] fields2 = fields[1].split ("\\|", -1);
 			NSRCG3_Format format = repository.getVehiclesFormat (fields2[0]);
 			Hashtable values = new Hashtable ();
 			//values.put ("Name", fields[0]);
 			if (format != null) {
-				values.putAll (format.getValuesMap(fields2));
+				values.putAll (format.getValuesMap (fields2));
 			} else {
 				values.put ("Data", fields[1]);
 			}
-			Vehicle obj = new Vehicle(fields[0], values);
+			Vehicle obj = new Vehicle (fields[0], values);
 			
-			pc.AddVehicle(obj, "", false);
+			pc.AddVehicle (obj, "", false);
 		}
 		
 		// Deck ...
+		for (int index = 0; ; index++) {
+			String value_raw = getIndexedString ("Deck.Deck", index, null);
+			if (value_raw == null) {
+				break;
+			}
+			String[] fields = value_raw.replace ('_', ' ').split ("~", -1);
+			String[] fields2 = fields[1].split ("\\|", -1);
+			NSRCG3_Format format = repository.getDecksFormat (fields2[0]);
+			Hashtable values = new Hashtable ();
+			//values.put ("Name", fields[0]);
+			if (format != null) {
+				values.putAll (format.getValuesMap (fields2));
+			} else {
+				values.put ("Data", fields[1]);
+			}
+			Deck obj = new Deck (fields[0], values);
+			
+			pc.AddDeck (obj, "", false);
+		}
+
+		for (int index = 0; ; index++) {
+			String value_raw = getIndexedString ("Magic.Spell", index, null);
+			if (value_raw == null) {
+				break;
+			}
+			String[] fields = value_raw.replace('_', ' ').split("~", -1);
+			Hashtable values = new Hashtable ();
+			values.put ("Name", fields[0]);
+			values.put ("Type", fields[1]);
+			values.put ("Target", fields[2]);
+			values.put ("Duration", fields[3]);
+			values.put ("Range", fields[4]);
+			values.put ("Drain", fields[5]);
+			values.put ("Rank", fields[6]);
+			values.put ("Book.Page", fields[7]);
+			values.put ("??1", fields[8]);
+			values.put ("??2", fields[9]);
+			values.put ("??3", fields[10]);
+
+			Spell obj = new Spell (fields[0], values);
+			
+			pc.AddSpell (obj, "", false);
+		}
 		
 		return pc;
 

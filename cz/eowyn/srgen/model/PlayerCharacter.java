@@ -1,6 +1,8 @@
 package cz.eowyn.srgen.model;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 public class PlayerCharacter {
@@ -116,18 +118,22 @@ public class PlayerCharacter {
 
 	private RepositoryList edges_and_flaws;
 	private RepositoryList skills;
+	private RepositoryList spells;
 	private RepositoryList contacts;
 
-	private RepositoryList gears;
+	private RepositoryList gear;
+	private RepositoryList mage_gear;
 	private RepositoryList cyberwares;
 	private RepositoryList biowares;
 	private RepositoryList vehicles;
 	private RepositoryList decks;
+	private RepositoryList adept_powers;
 
 	private RepositoryList lifestyles;
 	private RepositoryList credsticks;
 	
-	
+
+	private boolean isDirty = false;
 	private boolean signalActive = false;
 	
 	public PlayerCharacter () {
@@ -144,27 +150,31 @@ public class PlayerCharacter {
 		
 		edges_and_flaws = new RepositoryList (5);
 		skills = new RepositoryList (10);
+		spells = new RepositoryList (10);
 		contacts = new RepositoryList (5);
 
-		gears = new RepositoryList (10);
+		gear = new RepositoryList (10);
+		mage_gear = new RepositoryList (10);
 		cyberwares = new RepositoryList (5);
 		biowares = new RepositoryList (5);
 		vehicles = new RepositoryList (5);
 		decks = new RepositoryList (5);		
+		adept_powers = new RepositoryList (5);		
 		
 		lifestyles = new RepositoryList (3);
 		credsticks = new RepositoryList (5);
 		
 		computeInitialResources ();
+		isDirty = false;
 	}
 	
 	private void computeInitialResources () {
-		int[] res = { 1000000, 400000, 90000, 20000, 5000 };
 		int[] attr_points = { 30, 27, 24, 21, 18 };
 		int[] skill_points = { 50, 40, 34, 30, 27 };
+		int[] res = { 1000000, 400000, 90000, 20000, 5000 };
 		
-		setStat (STAT_ATTR_POINTS, res[priorities[PRIO_ATTRS]]);
-		setStat (STAT_SKILL_POINTS, res[priorities[PRIO_SKILLS]]);
+		setStat (STAT_ATTR_POINTS, attr_points[priorities[PRIO_ATTRS]]);
+		setStat (STAT_SKILL_POINTS, skill_points[priorities[PRIO_SKILLS]]);
 		setStat (STAT_RESOURCES, res[priorities[PRIO_RESOURCES]]);
 	}
 
@@ -175,6 +185,7 @@ public class PlayerCharacter {
 		for (int i = 0; i <= STR_MAX; i++) {
 			strings[i] = null;
 		}
+		setString (STR_CREATION_DATE, DateFormat.getDateInstance().format (new Date()));
 	}
 
 	
@@ -189,6 +200,8 @@ public class PlayerCharacter {
 	}
 	
 	protected void firePCChanged () {
+		isDirty = true;
+		strings[STR_MOD_DATE] = DateFormat.getDateInstance().format (new Date());
 		if (signalActive) return;
 		signalActive = true;
 
@@ -238,7 +251,13 @@ public class PlayerCharacter {
 		firePCChanged ();
 	}
 
-
+	public boolean isDirty () {
+		return this.isDirty;
+	}
+	
+	public void resetDirty () {
+		this.isDirty = false;
+	}
 	
 	public void AddEdgeAndFlaw (EdgeAndFlaw edge, String custom, boolean unique) {
 		edges_and_flaws.add (edge);
@@ -265,6 +284,20 @@ public class PlayerCharacter {
 	
 	public RepositoryList getSkill_List () {
 		return skills;
+	}
+
+
+	public void AddSpell (Spell spell, String custom, boolean unique) {
+		spells.add (spell);
+		firePCChanged ();
+	}
+	
+	public void RemoveSpell (Spell spell) {
+		//edges_and_flaws.add (edge);
+	}
+	
+	public RepositoryList getSpell_List () {
+		return spells;
 	}
 
 
@@ -310,7 +343,7 @@ public class PlayerCharacter {
 
 	
 	public void AddGear (Gear gear, String custom, boolean unique) {
-		gears.add (gear);
+		this.gear.add (gear);
 		firePCChanged ();
 	}
 	
@@ -319,7 +352,21 @@ public class PlayerCharacter {
 	}
 	
 	public RepositoryList getGear_List () {
-		return gears;
+		return gear;
+	}
+
+
+	public void AddMageGear (MageGear obj, String custom, boolean unique) {
+		mage_gear.add (obj);
+		firePCChanged ();
+	}
+	
+	public void RemoveMageGear (MageGear obj) {
+		//edges_and_flaws.add (edge);
+	}
+	
+	public RepositoryList getMageGear_List () {
+		return mage_gear;
 	}
 
 
@@ -376,6 +423,20 @@ public class PlayerCharacter {
 	
 	public RepositoryList getDeck_List () {
 		return decks;
+	}
+	
+
+	public void AddAdeptPower (AdeptPower obj, String custom, boolean unique) {
+		adept_powers.add (obj);
+		firePCChanged ();
+	}
+	
+	public void RemoveAdeptPower (AdeptPower obj) {
+		//edges_and_flaws.add (edge);
+	}
+	
+	public RepositoryList getAdeptPowers_List () {
+		return adept_powers;
 	}
 	
 

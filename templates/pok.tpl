@@ -181,12 +181,12 @@
     </tr>
     <tr>
      <td align="center" width="60%" class="border4">E/F NAME</td>
-     <td align="center" width="40%" class="border4">TYPE</td>
+     <td align="center" width="40%" class="border4">COST</td>
     </tr>
 |FOR,%index,0,EDGE.COUNT,1,0|
 |OIF(EVEN:%index,<tr bgcolor="#DDDDDD">,<tr bgcolor="white">)|
   <td align="left" class="font8">|EDGE.%index.NAME|</td>
-  <td align="left" class="borderbottom8" valign="bottom">|EDGE.%index.EORF|</td>
+  <td align="left" class="borderbottom8" valign="bottom">|EDGE.%index.COST|</td>
 </tr>
 |ENDFOR|
 </table>
@@ -230,6 +230,66 @@
 |ENDFOR|
    </table>
 <!-- STOP Vehicles Table -->
+
+<!-- START Cyberware Table -->
+   <table cellpadding="0" cellspacing="0" border="0" width="100%" summary="Cyberware Table">
+    <tr>
+     <td height="30" bgcolor="black" align="center"><font style="font-size: 9pt" color="white"><b>CYBERWARE</b></font></td>
+     <td height="30" bgcolor="black" align="center"></td>
+    </tr>
+    <tr>
+     <td align="center" width="60%" class="border4">CYBERWARE NAME</td>
+     <td align="center" width="40%" class="border4">NOTES</td>
+    </tr>
+|FOR,%index,0,CYBERWARE.COUNT,1,0|
+|OIF(EVEN:%index,<tr bgcolor="#DDDDDD">,<tr bgcolor="white">)|
+     <td align="left" class="font8">&nbsp;&nbsp;|CYBERWARE.%index.NAME|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|CYBERWARE.%index.NOTES|</td>
+    </tr>
+|ENDFOR|
+   </table>
+<!-- STOP Cyberware Table -->
+
+<!-- START Contacts Table -->
+   <table cellpadding="0" cellspacing="0" border="0" width="100%" summary="Contacts Table">
+    <tr>
+     <td height="30" bgcolor="black" align="center"><font style="font-size: 9pt" color="white"><b>CONTACTS</b></font></td>
+     <td height="30" bgcolor="black" align="center"></td>
+     <td height="30" bgcolor="black" align="center"></td>
+    </tr>
+    <tr>
+     <td align="center" width="40%" class="border4">NAME</td>
+     <td align="center" width="30%" class="border4">RACE</td>
+     <td align="center" width="30%" class="border4">OCCUPATION</td>
+    </tr>
+|FOR,%index,0,CONTACT.COUNT,1,0|
+|OIF(EVEN:%index,<tr bgcolor="#DDDDDD">,<tr bgcolor="white">)|
+     <td align="left" class="font8">&nbsp;&nbsp;|CONTACT.%index.NAME|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|CONTACT.%index.RACE|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|CONTACT.%index.OCCUPATION|</td>
+    </tr>
+|ENDFOR|
+   </table>
+<!-- STOP Contacts Table -->
+
+<!-- START Decks Table -->
+   <table cellpadding="0" cellspacing="0" border="0" width="100%" summary="Decks Table">
+    <tr>
+     <td height="30" bgcolor="black" align="center"><font style="font-size: 9pt" color="white"><b>DECKS</b></font></td>
+     <td height="30" bgcolor="black" align="center"></td>
+    </tr>
+    <tr>
+     <td align="center" width="60%" class="border4">NAME</td>
+     <td align="center" width="40%" class="border4">PERSONA</td>
+    </tr>
+|FOR,%index,0,DECK.COUNT,1,0|
+|OIF(EVEN:%index,<tr bgcolor="#DDDDDD">,<tr bgcolor="white">)|
+     <td align="left" class="font8">&nbsp;&nbsp;|DECK.%index.NAME|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|DECK.%index.PERSONA|</td>
+    </tr>
+|ENDFOR|
+   </table>
+<!-- STOP Decks Table -->
 
   </body>
 </html>

@@ -45,12 +45,16 @@ public class ExportHandler {
 	protected void populateTokenMap() {
 		if (tokenMap.isEmpty()) {
 			addToTokenMap (new AttrToken ());
+			addToTokenMap (new ContactToken ());
+			addToTokenMap (new CyberwareToken ());
+			addToTokenMap (new DeckToken ());
 			addToTokenMap (new EdgeToken ());
 			addToTokenMap (new ExportToken ());
 			addToTokenMap (new KarmaToken ());
 			addToTokenMap (new NameToken ());
 			addToTokenMap (new PoolsToken ());
 			addToTokenMap (new SkillToken ());
+			addToTokenMap (new VehicleToken ());
 			addToTokenMap (new VitalsToken ());
 		}
 	}

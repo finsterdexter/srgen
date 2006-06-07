@@ -26,10 +26,12 @@ public class SummaryPanel extends JPanel implements cz.eowyn.srgen.model.PCListe
 	private JTextField eyesEntry;
 	private JTextField heightEntry;
 	private JTextField weightEntry;
-	private JLabel resourcesLabel = null;
-	private JLabel reactionLabel = null;
-	private JLabel creationDateLabel = null;
-	private JLabel modifiedDateLabel = null;
+	private JTextField attrPointsLabel = null;
+	private JTextField skillPointsLabel = null;
+	private JTextField resourcesLabel = null;
+	private JTextField reactionLabel = null;
+	private JTextField creationDateLabel = null;
+	private JTextField modifiedDateLabel = null;
 	private AttributeTable attributeTable = null;
 	
 	private PlayerCharacter pc = null;
@@ -46,107 +48,26 @@ public class SummaryPanel extends JPanel implements cz.eowyn.srgen.model.PCListe
 		JLabel label;
 
 		// Character Tab?? Name
-		box = Box.createHorizontalBox();
-		label = new JLabel();
-		label.setText("Char Name:");
-		box.add(label);
-		box.add(getCharNameEntry());
-		this.add(box);
+		charNameEntry = getTextEntry ("Char Name", this);
+		realNameEntry = getTextEntry ("Real Name", this);
+		playerNameEntry = getTextEntry ("Player Name", this);
+		streetNameEntry = getTextEntry ("Street Name", this);
 
-		// Character Real Name
-		box = Box.createHorizontalBox();
-		label = new JLabel();
-		label.setText("Real Name:");
-		box.add(label);
-		box.add(getRealNameEntry());
-		this.add(box);
+		attrPointsLabel = getLabelEntry ("Attribute points", this);
+		skillPointsLabel = getLabelEntry ("Skill points", this);
+		resourcesLabel = getLabelEntry ("Resources", this);
 
-		// Player Name
-		box = Box.createHorizontalBox();
-		label = new JLabel();
-		label.setText("Player Name:");
-		box.add(label);
-		box.add(getPlayerNameEntry());
-		this.add(box);
+		reactionLabel = getLabelEntry ("Reaction", this);
 
-		// Character Street Name
-		box = Box.createHorizontalBox();
-		label = new JLabel();
-		label.setText("Street Name:");
-		box.add(label);
-		box.add(getStreetNameEntry());
-		this.add(box);
+		birthDateEntry = getTextEntry ("Birth Date", this);
+		birthPlaceEntry = getTextEntry ("Birth Place", this);
+		hairEntry = getTextEntry ("Hair", this);
+		eyesEntry = getTextEntry ("Eyes", this);
+		heightEntry = getTextEntry ("Height", this);
+		weightEntry = getTextEntry ("Weight", this);
 
-		// Resources
-		box = Box.createHorizontalBox();
-		label = new JLabel("Resources: ");
-		box.add(label);
-		box.add(getResourcesLabel());
-		this.add(box);
-
-		// Reaction
-		box = Box.createHorizontalBox();
-		label = new JLabel("Reaction: ");
-		box.add(label);
-		box.add(getReactionLabel());
-		this.add(box);
-
-
-		// BirthDate
-		box = Box.createHorizontalBox();
-		label = new JLabel("Birth Date: ");
-		box.add(label);
-		box.add(getBirthDateEntry());
-		this.add(box);
-
-		// BirthPlace
-		box = Box.createHorizontalBox();
-		label = new JLabel("Birth Place: ");
-		box.add(label);
-		box.add(getBirthPlaceEntry());
-		this.add(box);
-
-		// Hair
-		box = Box.createHorizontalBox();
-		label = new JLabel("Hair: ");
-		box.add(label);
-		box.add(getHairEntry());
-		this.add(box);
-
-		// Eyes
-		box = Box.createHorizontalBox();
-		label = new JLabel("Eyes: ");
-		box.add(label);
-		box.add(getEyesEntry());
-		this.add(box);
-
-		// Height
-		box = Box.createHorizontalBox();
-		label = new JLabel("Height: ");
-		box.add(label);
-		box.add(getHeightEntry());
-		this.add(box);
-
-		// Weight
-		box = Box.createHorizontalBox();
-		label = new JLabel("Weight: ");
-		box.add(label);
-		box.add(getWeightEntry());
-		this.add(box);
-
-		// Creation date
-		box = Box.createHorizontalBox();
-		label = new JLabel("Created: ");
-		box.add(label);
-		box.add(getCreationDateLabel ());
-		this.add(box);
-
-		// Last Modified date
-		box = Box.createHorizontalBox();
-		label = new JLabel("Last changed: ");
-		box.add(label);
-		box.add(getModifiedDateLabel ());
-		this.add(box);
+		creationDateLabel = getLabelEntry ("Created", this);
+		modifiedDateLabel = getLabelEntry ("Last Changed", this);
 
 		attributeTable = new AttributeTable (pc);
 		this.add(attributeTable);
@@ -159,155 +80,51 @@ public class SummaryPanel extends JPanel implements cz.eowyn.srgen.model.PCListe
 		pcChanged ();
     }
     
-    private JTextField getCharNameEntry() {
-        if (charNameEntry == null) {
-            charNameEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return charNameEntry;
+    
+    private JTextField getTextEntry (String name, JComponent owner) {
+		Box box = Box.createHorizontalBox ();
+		JLabel label = new JLabel (name + ": ");
+        JTextField entry = new JTextField ();
+        //jLabelName.setSize(60, 26);
+        //jLabelName.setLocation(150, 290);
+		box.add (label);
+		box.add (entry);
+		owner.add (box);
+		
+		return entry;
     }
     
-    private JTextField getRealNameEntry() {
-        if (realNameEntry == null) {
-            realNameEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return realNameEntry;
-    }
-    
-    private JTextField getPlayerNameEntry() {
-        if (playerNameEntry == null) {
-            playerNameEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return playerNameEntry;
-    }
-
-    private JTextField getStreetNameEntry() {
-        if (streetNameEntry == null) {
-            streetNameEntry = new JTextField();
-            // jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return streetNameEntry;
-    }
-    
-    private JTextField getBirthDateEntry() {
-        if (birthDateEntry == null) {
-            birthDateEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return birthDateEntry;
-    }
-
-    private JTextField getBirthPlaceEntry() {
-        if (birthPlaceEntry == null) {
-            birthPlaceEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return birthPlaceEntry;
-    }
-
-    private JTextField getHairEntry() {
-        if (hairEntry == null) {
-            hairEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return hairEntry;
-    }
-
-    private JTextField getEyesEntry() {
-        if (eyesEntry == null) {
-            eyesEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return eyesEntry;
-    }
-
-    private JTextField getHeightEntry() {
-        if (heightEntry == null) {
-            heightEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return heightEntry;
-    }
-    
-    private JTextField getWeightEntry() {
-        if (weightEntry == null) {
-            weightEntry = new JTextField();
-            //jLabelName.setSize(60, 26);
-            //jLabelName.setLocation(150, 290);
-        }
-        return weightEntry;
-    }
-    
-    private JLabel getResourcesLabel() {
-        if (resourcesLabel == null) {
-            resourcesLabel = new JLabel();
-        }
-        return resourcesLabel;
-    }
-    
-    private JLabel getReactionLabel() {
-        if (reactionLabel == null) {
-            reactionLabel = new JLabel();
-        }
-        return reactionLabel;
-    }
-    
-    private JLabel getCreationDateLabel() {
-        if (creationDateLabel == null) {
-            creationDateLabel = new JLabel();
-        }
-        return creationDateLabel;
-    }
-
-    private JLabel getModifiedDateLabel() {
-        if (modifiedDateLabel == null) {
-            modifiedDateLabel = new JLabel();
-        }
-        return modifiedDateLabel;
-    }
-
-    private void updateResourcesLabel () {
-        resourcesLabel.setText (String.valueOf(pc.getStat(PlayerCharacter.STAT_RESOURCES) + "\u00A5"));
-    }
-    
-    private void updateReactionLabel () {
-    	reactionLabel.setText (String.valueOf(pc.getReaction()));
-    }
-    
-    private void updateCreationDateLabel () {
-    	creationDateLabel.setText (pc.getString(PlayerCharacter.STR_CREATION_DATE));
-    }
-    
-    private void updateModifiedDateLabel () {
-    	modifiedDateLabel.setText (pc.getString(PlayerCharacter.STR_MOD_DATE));
+    private JTextField getLabelEntry (String name, JComponent owner) {
+		Box box = Box.createHorizontalBox ();
+		JLabel label = new JLabel (name + ": ");
+        JTextField entry = new JTextField ();
+        entry.setEditable (false);
+        entry.setFocusable (false);
+        
+		box.add (label);
+		box.add (entry);
+		owner.add (box);
+		
+		return entry;
     }
     
     public void pcChanged () {
-        charNameEntry.setText(pc.getString(PlayerCharacter.STR_CHARNAME));
-        realNameEntry.setText(pc.getString(PlayerCharacter.STR_REALNAME));
-        playerNameEntry.setText(pc.getString(PlayerCharacter.STR_PLAYERNAME));
-        streetNameEntry.setText(pc.getString(PlayerCharacter.STR_STREETNAME1));
-        birthDateEntry.setText(pc.getString(PlayerCharacter.STR_BIRTHDATE));
-        birthPlaceEntry.setText(pc.getString(PlayerCharacter.STR_BIRTHPLACE));
-        hairEntry.setText(pc.getString(PlayerCharacter.STR_HAIR));
-        eyesEntry.setText(pc.getString(PlayerCharacter.STR_EYES));
-        heightEntry.setText(pc.getString(PlayerCharacter.STR_HEIGHT));
-        weightEntry.setText(pc.getString(PlayerCharacter.STR_WEIGHT));
-    	updateResourcesLabel ();
-    	updateReactionLabel ();
-    	updateCreationDateLabel ();
-    	updateModifiedDateLabel ();
+        charNameEntry.setText (pc.getString (PlayerCharacter.STR_CHARNAME));
+        realNameEntry.setText (pc.getString (PlayerCharacter.STR_REALNAME));
+        playerNameEntry.setText (pc.getString (PlayerCharacter.STR_PLAYERNAME));
+        streetNameEntry.setText (pc.getString (PlayerCharacter.STR_STREETNAME1));
+        birthDateEntry.setText (pc.getString (PlayerCharacter.STR_BIRTHDATE));
+        birthPlaceEntry.setText (pc.getString (PlayerCharacter.STR_BIRTHPLACE));
+        hairEntry.setText (pc.getString (PlayerCharacter.STR_HAIR));
+        eyesEntry.setText (pc.getString (PlayerCharacter.STR_EYES));
+        heightEntry.setText (pc.getString (PlayerCharacter.STR_HEIGHT));
+        weightEntry.setText (pc.getString (PlayerCharacter.STR_WEIGHT));
+        attrPointsLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_ATTR_POINTS)));
+        skillPointsLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_SKILL_POINTS)));
+        resourcesLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_RESOURCES) + "\u00A5"));
+    	reactionLabel.setText (String.valueOf (pc.getReaction()));
+    	creationDateLabel.setText (pc.getString (PlayerCharacter.STR_CREATION_DATE));
+    	modifiedDateLabel.setText (pc.getString (PlayerCharacter.STR_MOD_DATE));
     	
     	attributeTable.setPlayerCharacter (pc);
     }

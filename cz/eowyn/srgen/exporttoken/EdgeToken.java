@@ -47,6 +47,9 @@ public class EdgeToken extends Token {
 			else if (modifier.equals("EORF")) {
 				ret = edge.getValue("EorF");
 			}
+			else if (modifier.equals("COST")) {
+				ret = edge.getValue("$Cost");
+			}
 			else if (modifier.equals("NOTES")) {
 				ret = edge.getValue("Notes");
 			}

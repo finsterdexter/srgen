@@ -8,18 +8,18 @@ import cz.eowyn.srgen.model.PlayerCharacter;
 import cz.eowyn.srgen.model.RepositoryList;
 import cz.eowyn.srgen.model.RepositoryObject;
 
-public class VehicleToken extends Token {
+public class DeckToken extends Token {
 
-	public static final String TOKENNAME = "VEHICLE";
+	public static final String TOKENNAME = "DECK";
 
-	public String getTokenName() {
+	public String getTokenName () {
 		return TOKENNAME;
 	}
 
-	public String getToken(String tokenSource, PlayerCharacter pc) {
+	public String getToken (String tokenSource, PlayerCharacter pc) {
 		String ret = tokenSource;
 		StringTokenizer aTok = new StringTokenizer (tokenSource, ".");
-		RepositoryList list = pc.getVehicle_List ();
+		RepositoryList list = pc.getDeck_List ();
 
 		aTok.nextToken ();
 		String aString = aTok.nextToken ();
@@ -44,8 +44,8 @@ public class VehicleToken extends Token {
 			if (modifier.equals ("NAME")) {
 				ret = obj.getName ();
 			}
-			else if (modifier.equals ("SPEED")) {
-				ret = obj.getValue ("Speed/Accel");
+			else if (modifier.equals ("PERSONA")) {
+				ret = obj.getValue ("Persona");
 			}
 			else if (modifier.equals ("NOTES")) {
 				ret = obj.getValue ("Notes");

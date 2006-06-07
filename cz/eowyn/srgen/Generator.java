@@ -20,7 +20,7 @@ public class Generator {
 
 		Config.loadConfig ();
 		
-		String dir = "/home/benkovsk/dos/srgen/data/";
+		String dir = "/home/benkovsk/nsr_data/";
 		//String dir = "";
 
 		// Load list of source books
@@ -39,12 +39,16 @@ public class Generator {
 		try {
 			loader.ImportFile (dir + "EDGE.DAT", repository.getEdgeAndFlaw_Tree(), EdgeAndFlaw.class, null);
 			loader.ImportFile (dir + "GEAR.DAT", repository.getGear_Tree(), Equipment.class, repository.getGearFormats());
+			loader.ImportFile (dir + "MAGEGEAR.DAT", repository.getMageGear_Tree(), Equipment.class, repository.getMageGearFormats());
 			loader.ImportFile (dir + "bioware.dat", repository.getBioware_Tree(), Bioware.class, null);
-			loader.ImportFile (dir + "cyber.dat", repository.getCyberware_Tree(), Cyberware.class, null);
-			loader.ImportFile (dir + "deck.dat", repository.getDecks_Tree(), Deck.class, null);
+			loader.ImportFile (dir + "cyber.dat", repository.getCyberware_Tree(), Cyberware.class, repository.getCyberwareFormats ());
+			loader.ImportFile (dir + "DECK.dat", repository.getDecks_Tree(), Deck.class, repository.getDecksFormats ());
 			loader.ImportFile (dir + "vehicles.dat", repository.getVehicles_Tree(), Vehicle.class, repository.getVehiclesFormats());
-			loader.ImportFile (dir + "SPELLS.DAT", repository.getSpell_Tree(), Spell.class, null);
+			loader.ImportFile (dir + "SPELLS.DAT", repository.getSpell_Tree(), Spell.class, repository.getSpellFormats());
 			loader.ImportFile (dir + "contacts.dat", repository.getContacts_Tree(), Contact.class, null);
+			loader.ImportFile (dir + "adept.dat", repository.getAdeptPowers_Tree(), Contact.class, null);
+			//loader.ImportFile (dir + "MAGIC.DAT", repository.getMagic_Tree(), Contact.class, null);
+			//loader.ImportFile (dir + "TOTEMS.DAT", repository.getTotems_Tree(), Contact.class, null);
 		} catch (Exception e) {
 			System.err.println ("Could not load file");
 	        e.printStackTrace();

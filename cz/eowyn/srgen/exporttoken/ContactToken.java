@@ -8,47 +8,50 @@ import cz.eowyn.srgen.model.PlayerCharacter;
 import cz.eowyn.srgen.model.RepositoryList;
 import cz.eowyn.srgen.model.RepositoryObject;
 
-public class VehicleToken extends Token {
+public class ContactToken extends Token {
 
-	public static final String TOKENNAME = "VEHICLE";
+	public static final String TOKENNAME = "CONTACT";
 
 	public String getTokenName() {
 		return TOKENNAME;
 	}
 
-	public String getToken(String tokenSource, PlayerCharacter pc) {
+	public String getToken (String tokenSource, PlayerCharacter pc) {
 		String ret = tokenSource;
 		StringTokenizer aTok = new StringTokenizer (tokenSource, ".");
-		RepositoryList list = pc.getVehicle_List ();
+		RepositoryList list = pc.getContact_List ();
 
 		aTok.nextToken ();
 		String aString = aTok.nextToken ();
 		
 		if (aString.equals ("COUNT")) {
-			return String.valueOf (list.size ()); 
+			return String.valueOf (list.size()); 
 		}
 		
-		int index = 0;
+		int edgeIndex = 0;
 
 		try {
-			index = Integer.parseInt (aString);
+			edgeIndex = Integer.parseInt (aString);
 		} 
 		catch (NumberFormatException e) { 
 			return ret;
 		}
 		
-		RepositoryObject obj = (RepositoryObject) list.get (index);
+		RepositoryObject edge = (RepositoryObject) list.get (edgeIndex);
 
 		if (aTok.hasMoreTokens ()) {		
 			String modifier = aTok.nextToken ();
 			if (modifier.equals ("NAME")) {
-				ret = obj.getName ();
+				ret = edge.getName ();
 			}
-			else if (modifier.equals ("SPEED")) {
-				ret = obj.getValue ("Speed/Accel");
+			else if (modifier.equals("RACE")) {
+				ret = edge.getValue("Race");
 			}
-			else if (modifier.equals ("NOTES")) {
-				ret = obj.getValue ("Notes");
+			else if (modifier.equals("COST")) {
+				ret = edge.getValue("$Cost");
+			}
+			else if (modifier.equals("OCCUPATION")) {
+				ret = edge.getValue("Occupation");
 			}
 		}
 		

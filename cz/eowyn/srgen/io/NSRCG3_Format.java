@@ -19,7 +19,11 @@ public class NSRCG3_Format {
 		Map value_map = new LinkedHashMap ();
 
 		for (int i = 0; i < length; i++) {
-			value_map.put (keys[i + 3], values[i + 1]);
+			try {
+				value_map.put (keys[i + 3], values[i + 1]);
+			} catch (Exception e) {
+				value_map.put (keys[i + 3], "");
+			}
 		}
 
 		return value_map;
