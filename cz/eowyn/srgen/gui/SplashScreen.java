@@ -57,7 +57,7 @@ import javax.swing.JPanel;
 import javax.swing.JWindow;
 import javax.swing.Timer;
 
-import cz.eowyn.srgen.gui.utils.IconUtilitities;
+import cz.eowyn.srgen.gui.utils.IconUtilities;
 
 /**
  * <code>SplashScreen</code> creates a splash screen
@@ -66,8 +66,69 @@ import cz.eowyn.srgen.gui.utils.IconUtilitities;
  * @version $Revision$
  */
 
-public final class SplashScreen extends JWindow
+public final class SplashScreen extends JFrame
 {
+        
+	public SplashScreen ()
+	{
+		super ();
+		setCursor (Cursor.getPredefinedCursor (Cursor.WAIT_CURSOR));
+		staticSplash ();
+	}
+	
+	public void staticSplash () {
+		JPanel splash = new JPanel (new BorderLayout (0, 0));
+		//splash.setBorder (new CompoundBorder (new MatteBorder (1, 1, 1, 1, Color.black), new EmptyBorder(12, 12, 12, 12)));
+		splash.setBackground (Color.black);
+		//splash.setPreferredSize (new Dimension (200, 200));
+
+		URL url = getClass ().getResource (IconUtilities.RESOURCE_URL + "SplashScreen.png");
+
+		if (url != null)
+		{
+			System.err.println(url.toString());
+			JLabel label = new JLabel (new ImageIcon (url));
+			//JLabel label = new JLabel("grrr");
+			splash.add (label, BorderLayout.CENTER);
+        	System.err.println("OOOOK");
+		}
+
+		//setContentPane(splash);
+		getContentPane ().add (splash);
+		this.setUndecorated(true);
+		pack ();
+		setLocationRelativeTo(null);
+		
+		//Dimension screen = getToolkit().getScreenSize();
+//		this.setSize (200, 200);
+//		this.setMinimumSize(new Dimension (200, 200));
+//		this.validate();
+		//setLocation ((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
+		setVisible (true);
+	}
+
+	public void animatedSplash () {
+		URL imageURL = FadeImagePanel.class.getResource(IconUtilities.RESOURCE_URL + "SplashScreen.png");
+        FadeImagePanel fip;
+        try {
+        	fip = new FadeImagePanel(imageURL);
+        } catch (IOException u) {
+        	System.err.println("GRRRRR");
+        	return;
+        }
+        
+        add(fip);
+        pack();
+        
+        setLocation(fip.getPreferredSplashLocation());
+        setVisible(true);
+        new Timer(3000, new ActionListener() {
+            public void actionPerformed(ActionEvent ae) {
+                //dispose ();
+            }
+        }).start();
+    }
+
 	public class FadeImagePanel extends JPanel {
         private Image image;   
         private Image bgImage;
@@ -144,55 +205,4 @@ public final class SplashScreen extends JWindow
             return PREF_SIZE;
         }
 	}
-        
-	public SplashScreen()
-	{
-		super ();
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
-		
-		URL imageURL = FadeImagePanel.class.getResource(IconUtilitities.RESOURCE_URL + "SplashScreen.gif");
-        FadeImagePanel fip;
-        try {
-        	fip = new FadeImagePanel(imageURL);
-        } catch (IOException u) {
-        	System.err.println("GRRRRR");
-        	return;
-        }
-        
-        add(fip);
-        pack();
-        
-        setLocation(fip.getPreferredSplashLocation());
-        setVisible(true);
-        new Timer(3000, new ActionListener() {
-            public void actionPerformed(ActionEvent ae) {
-                //dispose ();
-            }
-        }).start();
-    }
-		
-//		JPanel splash = new JPanel(new BorderLayout(12, 12));
-//		splash.setBorder(new CompoundBorder(new MatteBorder(1, 1, 1, 1, Color.black), new EmptyBorder(12, 12, 12, 12)));
-//		splash.setBackground(Color.black);
-//
-//		URL url = getClass().getResource(IconUtilitities.RESOURCE_URL + "SplashScreen.gif");
-//
-//		if (url != null)
-//		{
-//			
-//			JLabel label = new JLabel(new ImageIcon(url));
-//			//JLabel label = new JLabel("grrr");
-//			splash.add(label, BorderLayout.CENTER);
-//		}
-//
-//		//setContentPane(splash);
-//		add (splash);
-//		pack();
-//
-//		Dimension screen = getToolkit().getScreenSize();
-//		setLocation((screen.width - getSize().width) / 2, (screen.height - getSize().height) / 2);
-//		setVisible(true);
-//	}
-	
 }

@@ -1,25 +1,68 @@
 package cz.eowyn.srgen;
 
-import cz.eowyn.srgen.gui.SRGenWindow;
-import cz.eowyn.srgen.gui.SplashScreen;
+import java.util.ArrayList;
+
 public class AppInit {
 
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	public static void main (String[] args) {
+		boolean useGUI = true;
+		boolean isExport = false;
+		String exportFile = null;
+		ArrayList charFiles = new ArrayList (5);
 		
-		Generator generator = new Generator ();
-		if (args.length > 0) {
-			for (int i = 0; i < args.length; i++) {
-				generator.loadCharacter (args[i]);
+		Generator.init ();
+		for (int i = 0; i < args.length; i++) {
+			if (args[i].equals ("-e") || args[i].equals ("--export")) {
+				if (i + 1 == args.length) {
+					System.err.println ("Missing export file param");
+					print_help ();
+					System.exit (1);
+				}
+				isExport = true;
+				useGUI = false;
+				exportFile = args[i+1];
+				i++;
+				continue;
 			}
-		} else {
-			generator.newCharacter ();
+			if (args[i].equals ("-h") || args[i].equals ("--help")) {
+				print_help ();
+				System.exit (0);
+			}
+			charFiles.add (args[i]);
 		}
-		SRGenWindow window = new SRGenWindow (generator);
-		window.show ();
+
+		if (useGUI) {
+			Generator.showSplash ();
+		}
+
+		Generator.loadSources();
+		
+		for (int i = 0; i < charFiles.size(); i++) {
+			Generator.loadCharacter (args[i]);
+		}
+		
+		if (Generator.getCharacters ().size() == 0) { 
+			Generator.newCharacter ();
+		}
+	
+		if (isExport) {
+			Generator.exportCharacter (Generator.getPlayerCharacter (0), "templates/pok.tpl", exportFile);
+			System.exit (0);
+		}
+
+		Generator.startGUI ();
 	}
 
+	public static void print_help () {
+		System.out.println (
+				"Usage:\n" +
+				"    srgen [options] [character ...]\n" +
+				"\n" +
+				"Options:\n" +
+				"    -e, --export <file_name>     Export first character to the file specified\n" +
+				"    -h, --help                   Print this help\n");
+	}
 }

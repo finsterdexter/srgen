@@ -13,9 +13,13 @@ import javax.swing.SwingConstants;
 
 public class Config {
 
+	public static final int DEF_MAXIMUM_EORF = 7
+	;
 	static private Properties options = new Properties ();
 	ArrayList contacts_files = null;
+	
 	private static int pcTabPlacement = SwingConstants.BOTTOM;
+	private static int maximumEorF = DEF_MAXIMUM_EORF;
 	
 //	private static File pcgenSystemDir = new File(Globals.getDefaultPath() + File.separator + "system"); //$NON-NLS-1$
 //	private static File pcgenThemePackDir = new File(Globals.getDefaultPath() + File.separator + "lib" + File.separator //$NON-NLS-1$
@@ -98,6 +102,7 @@ public class Config {
 		}
 		
 		pcTabPlacement = tabPlacementFromString (getOptions ().getProperty ("srgen.gui.pcTabPlacement", "bottom"));
+		maximumEorF = getInt ("srgen.rules.maximumEorF", DEF_MAXIMUM_EORF);
 		return true;
 	}
 
@@ -106,7 +111,8 @@ public class Config {
 		//final String filterLocation = Globals.getFilterPath();
 
 		getOptions ().setProperty ("srgen.gui.pcTabPlacement", tabPlacementToString (pcTabPlacement));
-
+		setInt ("srgen.rules.maximumEorF", maximumEorF);
+		
 		//final String fType = getFilePaths();
 		final String fType = "user";
 		final String aLoc = getFilePath ("");
@@ -152,6 +158,14 @@ public class Config {
 		return options;
 	}
 
+	protected static int getInt (String key, int default_value) {
+		return Integer.parseInt (getOptions ().getProperty (key, String.valueOf (default_value)));		
+	}
+	
+	protected static void setInt (String key, int value) {
+		getOptions ().setProperty (key, String.valueOf (value));		
+	}
+	
 	public static int tabPlacementFromString (String place) {
 		int ret;
 		
@@ -200,4 +214,13 @@ public class Config {
 		return pcTabPlacement;
 	}
 
+	public static void setMaximumEorF (final int value)
+	{
+		maximumEorF = value;
+	}
+
+	public static int getMaximumEorF ()
+	{
+		return maximumEorF;
+	}
 }

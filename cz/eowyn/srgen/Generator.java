@@ -1,25 +1,45 @@
 package cz.eowyn.srgen;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
+import cz.eowyn.srgen.gui.SRGenWindow;
 import cz.eowyn.srgen.gui.SplashScreen;
 import cz.eowyn.srgen.io.*;
 import cz.eowyn.srgen.model.*;
 
 public class Generator {
-	public SplashScreen splash;
+	public static SplashScreen splash = null;
 
-	private Repository repository = null;
-	private ArrayList  characters = null;
+	private static Repository repository = null;
+	private static ArrayList  characters = null;
 	
-	public Generator () {
-		splash = new SplashScreen ();
-
+	public static void init () {
 		characters = new ArrayList (10);
 		repository = new Repository ();
 
 		Config.loadConfig ();
-		
+	}
+	
+	public static void showSplash () {
+		splash = new SplashScreen ();
+	}
+	
+	public static void hideSplash () {
+		splash.dispose ();
+	}
+	
+	public static void startGUI () {
+		SRGenWindow window = new SRGenWindow ();
+		hideSplash ();
+		window.show ();
+	}
+	
+	public static void loadSources () {
 		String dir = "/home/benkovsk/nsr_data/";
 		//String dir = "";
 
@@ -33,10 +53,10 @@ public class Generator {
 		}
 		
 		// Load repository objects
-		NSRCG3_DAT_Loader loader = new NSRCG3_DAT_Loader (repository);
-
 		// FIXME: single bad file will prevent loading of all subsequent files 
 		try {
+			NSRCG3_DAT_Loader loader = new NSRCG3_DAT_Loader (repository);
+
 			loader.ImportFile (dir + "EDGE.DAT", repository.getEdgeAndFlaw_Tree(), EdgeAndFlaw.class, null);
 			loader.ImportFile (dir + "GEAR.DAT", repository.getGear_Tree(), Equipment.class, repository.getGearFormats());
 			loader.ImportFile (dir + "MAGEGEAR.DAT", repository.getMageGear_Tree(), Equipment.class, repository.getMageGearFormats());
@@ -53,27 +73,28 @@ public class Generator {
 			System.err.println ("Could not load file");
 	        e.printStackTrace();
 		}
+		// Load repository objects
 
-		// create and load PCs
-		//PlayerCharacter pc = new PlayerCharacter ();
-		//pc.setStreetName("Jingo");
-		//pc.setRealName("John Bull");
-		//characters.add(pc);
-
-		//loadCharacter ("/home/benkovsk/dos/srgen/sr3/Jarda2.sr3");	
+		try {
+			NSRCG3_Skills_Loader loader = new NSRCG3_Skills_Loader (repository);
+			loader.ImportFile (dir + "SKILLS.DAT", repository.getSkill_Tree(), Skill.class, null);
+		} catch (Exception e) {
+			System.err.println ("Could not load file");
+			e.printStackTrace();
+		}
 	}
-	
-	public Repository getRepository () {
+
+	public static Repository getRepository () {
 		return repository;
 	}
 
-	public PlayerCharacter newCharacter () {
+	public static PlayerCharacter newCharacter () {
 		PlayerCharacter pc = new PlayerCharacter ();
 		characters.add (pc);
 		return pc;
 	}
 	
-	public PlayerCharacter loadCharacter (String filename) {
+	public static PlayerCharacter loadCharacter (String filename) {
 		PlayerCharacter pc;
 		NSRCG3_SR3_Loader pcloader = new NSRCG3_SR3_Loader (repository);
 		try {
@@ -88,11 +109,25 @@ public class Generator {
 		
 	}
 	
-	public ArrayList getCharacters() {
+	public static ArrayList getCharacters() {
 		return characters;
 	}
 
-	public PlayerCharacter getPlayerCharacter(int index) {
+	public static PlayerCharacter getPlayerCharacter(int index) {
 		return (PlayerCharacter) characters.get(index);
+	}
+
+	public static void exportCharacter (PlayerCharacter pc, String template, String filename) {
+        try {
+        	ExportHandler exporter = new ExportHandler (new File (template));
+        	BufferedWriter bw = new BufferedWriter (new OutputStreamWriter (new FileOutputStream (filename)));
+            exporter.write (pc, bw);
+            bw.close ();
+            System.err.println ("Character exported");
+        }
+        catch (IOException exc) {
+        	System.err.println ("Can't export file:" + exc.getMessage());
+        }
+		
 	}
 }

@@ -30,12 +30,11 @@ public class ObjectDetailPane extends JScrollPane {
 	public void displayObject(RepositoryObject obj) {
    	    //Object nodeInfo = node.getUserObject();
    	    if (obj != null) {
-   	    	System.err.println (obj.getName ());
-   	        //BookInfo book = (BookInfo)nodeInfo;
-   	        //displayURL(book.bookURL);
+   	    	//System.err.println (obj.getName ());
    	    	Map values = obj.getValues ();
    	    	Iterator keyIterator = values.keySet().iterator();
-   	    	String text = "<h1>" + obj.getName() + "\u00A5</h1>\n<table>\n";
+   	    	//String text = "<h1>" + obj.getName() + "\u00A5</h1>\n<table>\n";
+   	    	String text = "<h1>" + obj.getName() + "</h1>\n<table>\n";
    	    	while (keyIterator.hasNext ()) {
    	    		String key = (String) keyIterator.next();
    	    		String val = (String) values.get (key);

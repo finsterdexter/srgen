@@ -291,5 +291,54 @@
    </table>
 <!-- STOP Decks Table -->
 
+<!-- START Damage Table -->
+   <table cellpadding="0" cellspacing="0" border="1" width="50%" summary="Condition Table">
+    <tr>
+     <td height="30" bgcolor="black" align="center" colspan=11><font style="font-size: 9pt" color="white"><b>CONDITION</b></font></td>
+    </tr>
+    <tr>
+     <td height="30" bgcolor="black" align="center" colspan=1><font style="font-size: 8pt" color="white">&nbsp;</font></td>
+     <td height="30" bgcolor="black" align="center" colspan=2><font style="font-size: 8pt" color="white">TN +1<br>Init -1</font></td>
+     <td height="30" bgcolor="black" align="center" colspan=3><font style="font-size: 8pt" color="white">TN +2<br>Init -2</font></td>
+     <td height="30" bgcolor="black" align="center" colspan=4><font style="font-size: 8pt" color="white">TN +3<br>Init -3</font></td>
+     <td height="30" bgcolor="black" align="center" colspan=1><font style="font-size: 8pt" color="white">&nbsp;</font></td>
+     <td height="30" bgcolor="black" align="center" colspan=6><font style="font-size: 8pt" color="white">Overdamage</font></td>
+    </tr>
+    <tr>
+     <td height="20" align="center"><font style="font-size: 9pt"><b>Stun:</b></font></td>
+     <td width="20" align="center"><font style="font-size: 7pt">L</font></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"><font style="font-size: 7pt">M</font></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"><font style="font-size: 7pt">S</font></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center">D</td>
+     <td align="center" colspan=6>Overflows into physical</td>
+    </tr>
+    <tr>
+     <td height="20" align="center"><font style="font-size: 9pt"><b>Physical:</b></font></td>
+     <td width="20" align="center">L</td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center">M</td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center">S</td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center">D</td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+     <td width="20" align="center"></td>
+    </tr>
+   </table>
+<!-- STOP Damage Table -->
+
   </body>
 </html>

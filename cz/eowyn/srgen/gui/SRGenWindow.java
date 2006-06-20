@@ -17,10 +17,10 @@ import cz.eowyn.srgen.model.Repository;
 import cz.eowyn.srgen.model.RepositoryList;
 import cz.eowyn.srgen.io.ExportHandler;
 import cz.eowyn.srgen.model.PCListener;
+import cz.eowyn.srgen.gui.utils.IconUtilities;
 
 
 public class SRGenWindow extends JFrame {
-	private Generator generator = null;
 	private Repository repository = null;
 	
 	private JMenuBar main_menubar = null;
@@ -31,11 +31,10 @@ public class SRGenWindow extends JFrame {
 	
 	private ArrayList pcListeners = null;
 	
-    public SRGenWindow (Generator generator) {
+    public SRGenWindow () {
 		super ();
 
-		this.generator = generator;
-		this.repository = generator.getRepository ();
+		this.repository = Generator.getRepository ();
 		
         this.setSize (800, 560);
 
@@ -43,6 +42,7 @@ public class SRGenWindow extends JFrame {
 
         this.setContentPane (getAllCharsPane ());
         this.setTitle ("Shadowrun character generator");
+        this.setIconImage (IconUtilities.getImageIcon ("Icon.gif").getImage());
         this.setJMenuBar (getMain_menubar());
 
         this.openFileChooser = new JFileChooser ();
@@ -94,7 +94,7 @@ public class SRGenWindow extends JFrame {
                     //System.out.println (fileChooser.getCurrentDirectory());
                     //System.out.println (fileChooser.getSelectedFile().getAbsolutePath());
                     //System.out.println (filename);
-                    PlayerCharacter pc = generator.loadCharacter (filename);
+                    PlayerCharacter pc = Generator.loadCharacter (filename);
                     addPC (pc);
                     fireGroupChanged ();
                 }
@@ -112,15 +112,7 @@ public class SRGenWindow extends JFrame {
                     //System.out.println (fileChooser.getCurrentDirectory());
                     //System.out.println (fileChooser.getSelectedFile().getAbsolutePath());
                     //System.out.println (filename);
-                    try {
-                    	ExportHandler exporter = new ExportHandler (new File ("templates/pok.tpl"));
-                    	BufferedWriter bw = new BufferedWriter (new OutputStreamWriter (new FileOutputStream (filename)));
-                        exporter.write (getCurrentCharacter (), bw);
-                        bw.close();
-                    }
-                    catch (IOException exc) {
-                    	System.err.println("Can't export file:" + exc.getMessage());
-                    }
+                    Generator.exportCharacter (getCurrentCharacter (), "templates/pok.tpl", filename);
                 }
             }
         });
@@ -170,7 +162,7 @@ public class SRGenWindow extends JFrame {
 
     	allCharsPane.setTabPlacement (Config.getPCTabPlacement());
 
-    	Iterator pcIter = generator.getCharacters().iterator();
+    	Iterator pcIter = Generator.getCharacters().iterator();
     	while (pcIter.hasNext ()) {
     		PlayerCharacter pc = (PlayerCharacter) pcIter.next ();
     		addPC (pc);
@@ -194,7 +186,7 @@ public class SRGenWindow extends JFrame {
     	}
     	
     	allCharsPane.remove (index);
-    	generator.getCharacters ().remove (index);
+    	Generator.getCharacters ().remove (index);
     }
     /**
      * This method initializes treasures_jtabbedpane
@@ -373,7 +365,7 @@ public class SRGenWindow extends JFrame {
 
     public PlayerCharacter getCurrentCharacter () {
     	int index = allCharsPane.getSelectedIndex ();
-    	return generator.getPlayerCharacter (index);
+    	return Generator.getPlayerCharacter (index);
     }
      
      public void addPCListener (PCListener listener) {

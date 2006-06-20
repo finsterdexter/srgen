@@ -27,7 +27,7 @@ import java.net.URL;
 import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 
-public class IconUtilitities
+public class IconUtilities
 {
 	public static final String RESOURCE_URL = "/cz/eowyn/srgen/gui/resource/";
 
@@ -43,7 +43,7 @@ public class IconUtilitities
 	 */
 	public static ImageIcon getImageIcon(String iconName)
 	{
-		final URL iconURL = IconUtilitities.class.getResource(RESOURCE_URL + iconName);
+		final URL iconURL = IconUtilities.class.getResource(RESOURCE_URL + iconName);
 
 		if (iconURL == null)
 		{
@@ -66,7 +66,7 @@ public class IconUtilitities
 	 */
 	public static ImageIcon getImageIcon(String location, String description)
 	{
-		final URL iconURL = IconUtilitities.class.getResource(RESOURCE_URL + location);
+		final URL iconURL = IconUtilities.class.getResource(RESOURCE_URL + location);
 
 		if (iconURL == null)
 		{
