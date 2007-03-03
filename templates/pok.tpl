@@ -216,16 +216,26 @@
    <table cellpadding="0" cellspacing="0" border="0" width="100%" summary="Vehicles Table">
     <tr>
      <td height="30" bgcolor="black" align="center"><font style="font-size: 9pt" color="white"><b>VEHICLES</b></font></td>
-     <td height="30" bgcolor="black" align="center"></td>
+     <td height="30" bgcolor="black" align="center" colspan="6"></td>
     </tr>
     <tr>
-     <td align="center" width="60%" class="border4">VEHICLE NAME</td>
-     <td align="center" width="40%" class="border4">MODIFIER</td>
+     <td align="center" width="40%" class="border4">VEHICLE NAME</td>
+     <td align="center" width="10%" class="border4">SIG/AUTONAV</td>
+     <td align="center" width="10%" class="border4">SPEED/ACCEL</td>
+     <td align="center" width="10%" class="border4">HANDLING</td>
+     <td align="center" width="10%" class="border4">PILOT/SENSOR</td>
+     <td align="center" width="10%" class="border4">BODY/ARMOR</td>
+     <td align="center" width="10%" class="border4">CARGO/LOAD</td>
     </tr>
 |FOR,%index,0,VEHICLE.COUNT,1,0|
 |OIF(EVEN:%index,<tr bgcolor="#DDDDDD">,<tr bgcolor="white">)|
-     <td align="left" class="font8">&nbsp;&nbsp;|VEHICLE.%index.NAME|</td>
-     <td align="left" class="borderbottom8" valign="bottom">|VEHICLE.%index.ST|</td>
+     <td align="left" class="font8">&nbsp;&nbsp;|VEHICLE.%index.NAME|<br><font style="font-size: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;|VEHICLE.%index.NOTES|</font></td>
+     <td align="left" class="borderbottom8" valign="bottom">|VEHICLE.%index.SIG_AUTONAV|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|VEHICLE.%index.SPEED_ACCEL|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|VEHICLE.%index.HANDLING|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|VEHICLE.%index.PILOT_SENSOR|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|VEHICLE.%index.BODY_ARMOR|</td>
+     <td align="left" class="borderbottom8" valign="bottom">|VEHICLE.%index.CARGO_LOAD|</td>
     </tr>
 |ENDFOR|
    </table>

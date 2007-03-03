@@ -22,11 +22,11 @@ class SelectedObjectsPane extends JScrollPane {
     protected ObjectListener listener = null;
     
 	
-	public SelectedObjectsPane(RepositoryList selectedList) {
+	public SelectedObjectsPane(RepositoryList selectedList, String[] columns) {
 		super();
 
 		this.selectedList = selectedList;
-		this.selectedDataModel = new AssetTableModel (selectedList);
+		this.selectedDataModel = new AssetTableModel (selectedList, columns);
 
 		createTable ();
 	}

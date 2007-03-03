@@ -4,23 +4,27 @@ import javax.swing.table.AbstractTableModel;
 
 
 public class AssetTableModel extends AbstractTableModel {
-	RepositoryList  list;
-	public AssetTableModel (RepositoryList list) {
+	private RepositoryList  list;
+	private String[]  columns;
+	
+	public AssetTableModel (RepositoryList list, String[] columns) {
 		super ();
 		this.list = list;
+		this.columns = columns;
 	}
 	
-    public int getColumnCount() { return 1; }
+    public int getColumnCount() { return columns.length; }
     
     public int getRowCount() { return list.size(); }
     
-    public Object getValueAt(int row, int col) {
-    	if (col == 0) {
-    		return ((RepositoryObject) list.get(row)).getName ();
-    	} else {
-    		return "";
-    	}
+    public String getColumnName(int col) {
+    	return columns[col];
     }
+
+    public Object getValueAt(int row, int col) {
+    	return ((RepositoryObject) list.get(row)).getValue(columns[col]);
+    }
+    
     public void addRow(RepositoryObject obj) {
 		list.add(obj);
     	this.fireTableRowsInserted(list.size()-1, list.size()-1);

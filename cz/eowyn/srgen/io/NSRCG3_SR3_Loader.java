@@ -28,6 +28,7 @@ package cz.eowyn.srgen.io;
 import java.io.*;
 import java.util.Hashtable;
 
+import cz.eowyn.srgen.model.AdeptPower;
 import cz.eowyn.srgen.model.Bioware;
 import cz.eowyn.srgen.model.Contact;
 import cz.eowyn.srgen.model.Credstick;
@@ -201,7 +202,7 @@ public class NSRCG3_SR3_Loader {
 			String[] fields2 = fields[1].split("\\|", -1);
 			NSRCG3_Format format = repository.getGearFormat (fields2[0]);
 			Hashtable values = new Hashtable ();
-			//values.put ("Name", fields[0]);
+			values.put ("Name", fields[0]);
 			if (format != null) {
 				values.putAll (format.getValuesMap(fields2));
 			} else {
@@ -212,7 +213,7 @@ public class NSRCG3_SR3_Loader {
 			pc.AddGear(obj, "", false);
 		}
 		
-		// Gears
+		// Mage Gear
 		for (int index = 0; ; index++) {
 			String value_raw = getIndexedString ("Magic.MageGear", index, null);
 			if (value_raw == null) {
@@ -222,7 +223,7 @@ public class NSRCG3_SR3_Loader {
 			String[] fields2 = fields[1].split("\\|", -1);
 			NSRCG3_Format format = repository.getMageGearFormat (fields2[0]);
 			Hashtable values = new Hashtable ();
-			//values.put ("Name", fields[0]);
+			values.put ("Name", fields[0]);
 			if (format != null) {
 				values.putAll (format.getValuesMap (fields2));
 			} else {
@@ -268,7 +269,7 @@ public class NSRCG3_SR3_Loader {
 			String[] fields2 = fields[1].split ("\\|", -1);
 			NSRCG3_Format format = repository.getVehiclesFormat (fields2[0]);
 			Hashtable values = new Hashtable ();
-			//values.put ("Name", fields[0]);
+			values.put ("Name", fields[0]);
 			if (format != null) {
 				values.putAll (format.getValuesMap (fields2));
 			} else {
@@ -289,7 +290,7 @@ public class NSRCG3_SR3_Loader {
 			String[] fields2 = fields[1].split ("\\|", -1);
 			NSRCG3_Format format = repository.getDecksFormat (fields2[0]);
 			Hashtable values = new Hashtable ();
-			//values.put ("Name", fields[0]);
+			values.put ("Name", fields[0]);
 			if (format != null) {
 				values.putAll (format.getValuesMap (fields2));
 			} else {
@@ -300,6 +301,7 @@ public class NSRCG3_SR3_Loader {
 			pc.AddDeck (obj, "", false);
 		}
 
+		// Magic
 		for (int index = 0; ; index++) {
 			String value_raw = getIndexedString ("Magic.Spell", index, null);
 			if (value_raw == null) {
@@ -322,6 +324,25 @@ public class NSRCG3_SR3_Loader {
 			Spell obj = new Spell (fields[0], values);
 			
 			pc.AddSpell (obj, "", false);
+		}
+
+		// Magic
+		for (int index = 0; ; index++) {
+			String value_raw = getIndexedString ("Magic.Power", index, null);
+			if (value_raw == null) {
+				break;
+			}
+			String[] fields = value_raw.replace('_', ' ').split("~", -1);
+			Hashtable values = new Hashtable ();
+			values.put ("Name", fields[0]);
+			values.put ("Essence", fields[1]);
+			values.put ("Effect", fields[2]);
+			values.put ("Book.Page", fields[3]);
+			values.put ("Notes", fields[4]);
+
+			AdeptPower obj = new AdeptPower (fields[0], values);
+			
+			pc.AddAdeptPower(obj, "", false);
 		}
 		
 		return pc;

@@ -44,8 +44,23 @@ public class VehicleToken extends Token {
 			if (modifier.equals ("NAME")) {
 				ret = obj.getName ();
 			}
-			else if (modifier.equals ("SPEED")) {
+			else if (modifier.equals ("SIG_AUTONAV")) {
+				ret = obj.getValue ("Sig/Autonav");
+			}
+			else if (modifier.equals ("SPEED_ACCEL")) {
 				ret = obj.getValue ("Speed/Accel");
+			}
+			else if (modifier.equals ("HANDLING")) {
+				ret = obj.getValue ("Handling");
+			}
+			else if (modifier.equals ("PILOT_SENSOR")) {
+				ret = obj.getValue ("Pilot/Sensor");
+			}
+			else if (modifier.equals ("BODY_ARMOR")) {
+				ret = obj.getValue ("Body/Armor");
+			}
+			else if (modifier.equals ("CARGO_LOAD")) {
+				ret = obj.getValue ("Cargo/Load");
 			}
 			else if (modifier.equals ("NOTES")) {
 				ret = obj.getValue ("Notes");

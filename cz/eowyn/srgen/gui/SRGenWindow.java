@@ -195,8 +195,9 @@ public class SRGenWindow extends JFrame {
      */
     private JTabbedPane getCharacterPane (PlayerCharacter pc) {
     	JTabbedPane tabbedPane = new JTabbedPane();
-    	JTabbedPane equipmentPane = null;
-    	JTabbedPane magicPane = null;
+    	JTabbedPane generatorTab = null;
+    	JTabbedPane equipmentTab = null;
+    	JTabbedPane magicTab = null;
 
     	//treasures_jtabbedpane.setPreferredSize(
     	//    new java.awt.Dimension(450, 500));
@@ -215,10 +216,25 @@ public class SRGenWindow extends JFrame {
     	TreePanel  Decks_Tab = new TreePanel (repository.getDecks_Tree(), pc.getDeck_List());
     	TreePanel  AdeptPowers_Tab = new TreePanel (repository.getAdeptPowers_Tree(), pc.getAdeptPowers_List());
     	
+    	PriorityGeneratorPanel priorityGeneratorPanel = new PriorityGeneratorPanel (pc);
     	SummaryPanel summaryPanel = new SummaryPanel (pc);
     	PreviewPane Preview_Tab = new PreviewPane (pc); 
             
     	addPCListener (summaryPanel);
+
+    	generatorTab = new javax.swing.JTabbedPane();
+
+    	generatorTab.addTab(
+    			"Priority",
+    			null,
+    			priorityGeneratorPanel,
+    			"Priority based character generation");
+
+    	tabbedPane.addTab(
+    			"Generator",
+    			null,
+    			generatorTab,
+    			"character generation");
 
     	tabbedPane.addTab(
     			"Summary",
@@ -251,7 +267,7 @@ public class SRGenWindow extends JFrame {
     			"add/rem contacts");
 
             
-    	equipmentPane = new javax.swing.JTabbedPane();
+    	equipmentTab = new javax.swing.JTabbedPane();
 /*
             allCharsPane.addTab(
                     "Spells",
@@ -260,31 +276,31 @@ public class SRGenWindow extends JFrame {
                     "add/rem spells");
 */
 
-    	equipmentPane.addTab(
+    	equipmentTab.addTab(
     			"Gear",
     			null,
     			Gear_Tab,
     			"add/rem gear");
             
-    	equipmentPane.addTab(
+    	equipmentTab.addTab(
     			"Cyberware",
     			null,
     			Cyberware_Tab,
     			"add/rem equipment");
 
-    	equipmentPane.addTab(
+    	equipmentTab.addTab(
     			"Bioware",
     			null,
     			Bioware_Tab,
     			"add/rem equipment");
             
-    	equipmentPane.addTab(
+    	equipmentTab.addTab(
     			"Vehicles",
     			null,
     			Vehicles_Tab,
     			"add/rem equipment");
 
-    	equipmentPane.addTab(
+    	equipmentTab.addTab(
     			"Decks",
     			null,
     			Decks_Tab,
@@ -293,26 +309,26 @@ public class SRGenWindow extends JFrame {
     	tabbedPane.addTab(
     			"Equipment",
     			null,
-    			equipmentPane,
+    			equipmentTab,
     			"add/rem equipment");
         
 
     	
-    	magicPane = new javax.swing.JTabbedPane ();
+    	magicTab = new javax.swing.JTabbedPane ();
     	
-    	magicPane.addTab(
+    	magicTab.addTab(
     			"Spells",
     			null,
     			Spell_Tab,
     			"add/rem spells");
 
-    	magicPane.addTab(
+    	magicTab.addTab(
     			"Mage Gear",
     			null,
     			MageGear_Tab,
     			"add/rem mage's gear");
 
-    	magicPane.addTab(
+    	magicTab.addTab(
     			"Adept Powers",
     			null,
     			AdeptPowers_Tab,
@@ -321,7 +337,7 @@ public class SRGenWindow extends JFrame {
     	tabbedPane.addTab(
     			"Magic",
     			null,
-    			magicPane,
+    			magicTab,
     			"add/rem equipment");
 
     	

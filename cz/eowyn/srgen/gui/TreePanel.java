@@ -111,7 +111,7 @@ class TreePanel extends JSplitPane implements ObjectListener {
     }
     
     public JScrollPane getSelectedObjectsPane () {
-    	SelectedObjectsPane pane = new SelectedObjectsPane (selectedList);
+    	SelectedObjectsPane pane = new SelectedObjectsPane (selectedList, new String[] {"Name", "Book.Page"});
     	pane.setObjectSelectedListener(this);
     	return pane;
     }

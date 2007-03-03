@@ -71,9 +71,11 @@ public class PlayerCharacter {
 
 	public static final int STAT_METAHUMAN = 43;
 	public static final int STAT_REACTION = 44;  // NOTE: computed
+	public static final int STAT_MAGIC = 45;
+	public static final int STAT_ALLOWED_RACES = 46;
 
 
-	private static final int STAT_MAX = STAT_REACTION;
+	private static final int STAT_MAX = STAT_ALLOWED_RACES;
 
 	
 	public static final int STAT_ATTR_BASE = STAT_BOD_BASE;
@@ -172,10 +174,14 @@ public class PlayerCharacter {
 		int[] attr_points = { 30, 27, 24, 21, 18 };
 		int[] skill_points = { 50, 40, 34, 30, 27 };
 		int[] res = { 1000000, 400000, 90000, 20000, 5000 };
+		int[] magic = { 2, 1, 0, 0, 0 };
+		int[] races = { 2, 1, 0, 0, 0 };
 		
 		setStat (STAT_ATTR_POINTS, attr_points[priorities[PRIO_ATTRS]]);
 		setStat (STAT_SKILL_POINTS, skill_points[priorities[PRIO_SKILLS]]);
 		setStat (STAT_RESOURCES, res[priorities[PRIO_RESOURCES]]);
+		setStat (STAT_MAGIC, magic[priorities[PRIO_MAGIC]]);
+		setStat (STAT_ALLOWED_RACES, races[priorities[PRIO_RACE]]);
 	}
 
 	private void resetStats () {

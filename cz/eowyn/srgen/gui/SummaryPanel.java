@@ -71,7 +71,7 @@ public class SummaryPanel extends JPanel implements cz.eowyn.srgen.model.PCListe
 
 		attributeTable = new AttributeTable (pc);
 		this.add(attributeTable);
-		this.add(new PriorityTable(pc));
+		//this.add(new PriorityTable(pc));
 
 		// commonPanel.add(getNew_radiobutton(), null);
 		// commonPanel.add(getAdd_radiobutton(), null);
