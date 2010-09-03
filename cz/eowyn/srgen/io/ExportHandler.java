@@ -55,6 +55,7 @@ public class ExportHandler {
 			addToTokenMap (new PoolsToken ());
 			addToTokenMap (new SkillToken ());
 			addToTokenMap (new VehicleToken ());
+			addToTokenMap (new GearToken ());
 			addToTokenMap (new VitalsToken ());
 		}
 	}
@@ -809,6 +810,14 @@ public class ExportHandler {
 			String part2 = expr.substring(expr.indexOf(".OR.") + 4);
 
 			return (evaluateExpression(part1, aPC) || evaluateExpression(part2, aPC));
+		}
+
+		if (expr.indexOf(".EQ.") > 0)
+		{
+			String part1 = expr.substring(0, expr.indexOf(".EQ."));
+			String part2 = expr.substring(expr.indexOf(".EQ.") + 4);
+
+			return (evaluateExpression(part1, aPC) == evaluateExpression(part2, aPC));
 		}
 
 		for (Iterator ivar = loopVariables.keySet().iterator(); ivar.hasNext();)

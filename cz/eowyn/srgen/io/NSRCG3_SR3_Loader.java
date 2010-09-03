@@ -208,6 +208,8 @@ public class NSRCG3_SR3_Loader {
 			} else {
 				values.put ("Data", fields[1]);
 			}
+			values.put ("_Format", fields2[0]);
+			
 			Gear obj = new Gear(fields[0], values);
 			
 			pc.AddGear(obj, "", false);

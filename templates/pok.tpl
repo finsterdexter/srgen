@@ -241,6 +241,30 @@
    </table>
 <!-- STOP Vehicles Table -->
 
+<!-- START Gear Table -->
+   <table cellpadding="0" cellspacing="0" border="0" width="100%" summary="Gear Table">
+    <tr>
+     <td height="30" bgcolor="black" align="center"><font style="font-size: 9pt" color="white"><b>GEAR</b></font></td>
+     <td height="30" bgcolor="black" align="center" colspan="6"></td>
+    </tr>
+    <tr>
+     <td align="center" width="40%" class="border4">NAME</td>
+     <td align="center" width="20%" class="border4">DAMAGE</td>
+     <td align="center" width="20%" class="border4">AMMUNITION</td>
+     <td align="center" width="20%" class="border4">MODE</td>
+    </tr>
+|FOR,%index,0,GEAR.COUNT,1,0|
+|OIF(EVEN:%index,<tr bgcolor="#DDDDDD">,<tr bgcolor="white">)|
+     <td align="left" class="font8">&nbsp;&nbsp;|GEAR.%index.NAME|<br><font style="font-size: 7pt">&nbsp;&nbsp;&nbsp;&nbsp;|GEAR.%index.NOTES|</font></td>
+     <td align="left" class="font8">|GEAR.%index.DAMAGE|</td>
+     <td align="left" class="font8">|GEAR.%index.AMMUNITION|</td>
+     <td align="left" class="font8">|GEAR.%index.MODE|</td>
+    </tr>
+|ENDFOR|
+   </table>
+<!-- STOP Gear Table -->
+
+
 <!-- START Cyberware Table -->
    <table cellpadding="0" cellspacing="0" border="0" width="100%" summary="Cyberware Table">
     <tr>
