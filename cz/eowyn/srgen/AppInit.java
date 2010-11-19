@@ -2,6 +2,9 @@ package cz.eowyn.srgen;
 
 import java.util.ArrayList;
 
+import javax.swing.UIManager;
+//import net.sourceforge.napkinlaf.NapkinLookAndFeel;
+
 public class AppInit {
 
 	/**
@@ -11,9 +14,11 @@ public class AppInit {
 		boolean useGUI = true;
 		boolean isExport = false;
 		String exportFile = null;
-		ArrayList charFiles = new ArrayList (5);
-		
+		ArrayList <String>charFiles = new ArrayList<String> (5);
+
+		Config.loadConfig ();
 		Generator.init ();
+		
 		for (int i = 0; i < args.length; i++) {
 			if (args[i].equals ("-e") || args[i].equals ("--export")) {
 				if (i + 1 == args.length) {
@@ -35,6 +40,22 @@ public class AppInit {
 		}
 
 		if (useGUI) {
+			String lookAndFeel = Config.get("srgen.gui.lookAndFeel");
+			try {
+				if (lookAndFeel.equals ("system"))
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				else 
+					UIManager.setLookAndFeel(lookAndFeel);
+				
+				//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				//UIManager.setLookAndFeel("net.sourceforge.napkinlaf.NapkinLookAndFeel");
+				//UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");
+			} catch (Exception e) {
+				System.err.println ("L&F exception...");
+				e.printStackTrace ();
+				; // Ignore exception because we can't do anything.  Will use default.
+			}
+
 			Generator.showSplash ();
 		}
 

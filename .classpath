@@ -2,5 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="jars/miglayout-3.7-swing.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/liquidlnf-2.9.1.jar"/>
+	<classpathentry kind="lib" path="jars/napkinlaf-1.2.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

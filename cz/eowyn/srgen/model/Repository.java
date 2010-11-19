@@ -5,20 +5,20 @@ import java.util.Hashtable;
 import cz.eowyn.srgen.io.NSRCG3_Format;
 
 public class Repository {
-	private RepositoryTree edges_and_flaws = null;
-	private RepositoryTree skills = null;
-	private RepositoryTree gear = null;
-	private RepositoryTree mage_gear = null;
-	private RepositoryTree bioware = null;
-	private RepositoryTree cyberware = null;
-	private RepositoryTree decks = null;
-	private RepositoryTree vehicles = null;
-	private RepositoryTree spells = null;
-	private RepositoryTree contacts = null;
-	private RepositoryTree adept_powers = null;
+	private RepositoryTree<EdgeAndFlaw> edges_and_flaws = null;
+	private RepositoryTree<Skill> skills = null;
+	private RepositoryTree<Gear> gear = null;
+	private RepositoryTree<MageGear> mage_gear = null;
+	private RepositoryTree<Bioware> bioware = null;
+	private RepositoryTree<Cyberware> cyberware = null;
+	private RepositoryTree<Deck> decks = null;
+	private RepositoryTree<Vehicle> vehicles = null;
+	private RepositoryTree<Spell> spells = null;
+	private RepositoryTree<Contact> contacts = null;
+	private RepositoryTree<AdeptPower> adept_powers = null;
 	private RepositoryTree totems = null;
 	private RepositoryTree magic = null;
-	private RepositoryTree source_books = null;
+	private RepositoryTree<SourceBook> source_books = null;
 	
 	// These are for NSRCG3 loaders
 	private Hashtable gear_formats = null;
@@ -31,20 +31,20 @@ public class Repository {
 	private Hashtable source_books_map = null;
 	
 	public Repository () {
-		adept_powers = new RepositoryTree ("Adept Powers", 0);
-		bioware = new RepositoryTree ("Bioware", 0);
-		contacts = new RepositoryTree ("Contacts", 0);
-		cyberware = new RepositoryTree ("Cyberware", 0);
-		decks = new RepositoryTree ("Decks", 0);
-		edges_and_flaws = new RepositoryTree ("Edges and Flaws", 0);
-		gear = new RepositoryTree ("Gear", 0);
-		mage_gear = new RepositoryTree ("Mage Gear", 0);
+		adept_powers = new RepositoryTree<AdeptPower> ("Adept Powers", 0);
+		bioware = new RepositoryTree<Bioware> ("Bioware", 0);
+		contacts = new RepositoryTree<Contact> ("Contacts", 0);
+		cyberware = new RepositoryTree<Cyberware> ("Cyberware", 0);
+		decks = new RepositoryTree<Deck> ("Decks", 0);
+		edges_and_flaws = new RepositoryTree<EdgeAndFlaw> ("Edges and Flaws", 0);
+		gear = new RepositoryTree<Gear> ("Gear", 0);
+		mage_gear = new RepositoryTree<MageGear> ("Mage Gear", 0);
 		magic = new RepositoryTree ("Magic", 0);
-		skills = new RepositoryTree ("Skills", 0);
-		source_books = new RepositoryTree ("Sources Books", 0);
-		spells = new RepositoryTree ("Spells", 0);
+		skills = new RepositoryTree<Skill> ("Skills", 0);
+		source_books = new RepositoryTree<SourceBook> ("Sources Books", 0);
+		spells = new RepositoryTree<Spell> ("Spells", 0);
 		totems = new RepositoryTree ("Totems", 0);
-		vehicles = new RepositoryTree ("Vehicles", 0);
+		vehicles = new RepositoryTree<Vehicle> ("Vehicles", 0);
 		
 		gear_formats = new Hashtable ();
 		mage_gear_formats = new Hashtable ();
@@ -60,7 +60,7 @@ public class Repository {
 		edges_and_flaws = root;
 	}
 
-	public RepositoryTree getEdgeAndFlaw_Tree () {
+	public RepositoryTree<EdgeAndFlaw> getEdgeAndFlaw_Tree () {
 		return edges_and_flaws;
 	}
 
@@ -68,7 +68,7 @@ public class Repository {
 		skills = root;
 	}
 
-	public RepositoryTree getSkill_Tree () {
+	public RepositoryTree<Skill> getSkill_Tree () {
 		return skills;
 	}
 
@@ -77,7 +77,7 @@ public class Repository {
 		gear = root;
 	}
 
-	public RepositoryTree getGear_Tree () {
+	public RepositoryTree<Gear> getGear_Tree () {
 		return gear;
 	}
 
@@ -94,7 +94,7 @@ public class Repository {
 		mage_gear = root;
 	}
 
-	public RepositoryTree getMageGear_Tree () {
+	public RepositoryTree<MageGear> getMageGear_Tree () {
 		return mage_gear;
 	}
 
@@ -112,7 +112,7 @@ public class Repository {
 		adept_powers = root;
 	}
 
-	public RepositoryTree getAdeptPowers_Tree () {
+	public RepositoryTree<AdeptPower> getAdeptPowers_Tree () {
 		return adept_powers;
 	}
 
@@ -135,11 +135,11 @@ public class Repository {
 	}
 
 
-	public void setBioware_Tree (RepositoryTree root) {
+	public void setBioware_Tree (RepositoryTree<Bioware> root) {
 		bioware = root;
 	}
 
-	public RepositoryTree getBioware_Tree () {
+	public RepositoryTree<Bioware> getBioware_Tree () {
 		return bioware;
 	}
 
@@ -147,7 +147,7 @@ public class Repository {
 		cyberware = root;
 	}
 
-	public RepositoryTree getCyberware_Tree () {
+	public RepositoryTree<Cyberware> getCyberware_Tree () {
 		return cyberware;
 	}
 
@@ -163,7 +163,7 @@ public class Repository {
 		decks = root;
 	}
 
-	public RepositoryTree getDecks_Tree () {
+	public RepositoryTree<Deck> getDecks_Tree () {
 		return decks;
 	}
 
@@ -180,7 +180,7 @@ public class Repository {
 		vehicles = root;
 	}
 
-	public RepositoryTree getVehicles_Tree () {
+	public RepositoryTree<Vehicle> getVehicles_Tree () {
 		return vehicles;
 	}
 
@@ -189,7 +189,7 @@ public class Repository {
 		spells = root;
 	}
 
-	public RepositoryTree getSpell_Tree () {
+	public RepositoryTree<Spell> getSpell_Tree () {
 		return spells;
 	}
 
@@ -206,7 +206,7 @@ public class Repository {
 		contacts = root;
 	}
 
-	public RepositoryTree getContacts_Tree () {
+	public RepositoryTree<Contact> getContacts_Tree () {
 		return contacts;
 	}
 
@@ -218,7 +218,7 @@ public class Repository {
 		return (NSRCG3_Format) vehicles_formats.get (key);
 	}
 	
-	public RepositoryTree getSourceBooks_Tree () {
+	public RepositoryTree<SourceBook> getSourceBooks_Tree () {
 		return source_books;
 	}
 	

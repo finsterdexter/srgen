@@ -1,23 +1,57 @@
 package cz.eowyn.srgen.model;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 
-public class RepositoryList extends ArrayList {
+public class RepositoryList<R extends RepositoryObject> extends ArrayList<R> {
 
-	public RepositoryList(int initialCapacity) {
-		super(initialCapacity);
-		// TODO Auto-generated constructor stub
-	}
-
-	public RepositoryList() {
+	private PlayerCharacter pc;
+	private ArrayList<PCAssetListener> listeners = null;
+	
+	public RepositoryList(PlayerCharacter pc) {
 		super();
-		// TODO Auto-generated constructor stub
+		this.pc = pc;
+		listeners = new ArrayList<PCAssetListener> (2);
 	}
-
-	public RepositoryList(Collection arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
+	
+	public boolean add(R obj) {
+		return add(obj, null, 0);
+	}
+	
+	public boolean add(R obj, String custom, float value) {
+		if (super.add(obj)) {
+			firePCAssetChanged();
+			return true;
+		} else
+			return false;
+	}
+	
+	public void addListener (PCAssetListener ls) {
+		if (! listeners.contains(ls)) {
+			listeners.add (ls);
+		}
+	}
+	
+	public void removeListener (PCAssetListener ls) {
+		listeners.remove(ls);
+	}
+	
+	protected void firePCAssetChanged () {
+		System.err.println("RepositoryList::firePCAssetChanged");
+		Iterator<PCAssetListener> iter = listeners.iterator();
+		while (iter.hasNext ()) {
+			System.err.println("    listener ...");
+			
+			PCAssetListener ls = iter.next ();
+			try {
+				ls.pcAssetChanged(pc, this);
+			}
+			catch (Exception e) {
+				// FIXME: don't catch or at least not all
+			}
+		}
 	}
 
 }

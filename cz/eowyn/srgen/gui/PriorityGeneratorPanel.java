@@ -1,5 +1,6 @@
 package cz.eowyn.srgen.gui;
 
+import net.miginfocom.swing.MigLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import javax.swing.Box;
@@ -27,7 +28,7 @@ public class PriorityGeneratorPanel extends JPanel implements cz.eowyn.srgen.mod
 
 	
     public PriorityGeneratorPanel (PlayerCharacter pc) {
-    	super ();
+    	super (new MigLayout());
     	this.pc = pc;
     	pc.addListener (this);
     	
@@ -36,13 +37,13 @@ public class PriorityGeneratorPanel extends JPanel implements cz.eowyn.srgen.mod
 		Box box;
 		JLabel label;
 
-		this.add(new PriorityTable(pc));
+		this.add(new PriorityTable(pc), "cell 0 1 1 5");
 
-		attrPointsLabel = getLabelEntry ("Attribute points", this);
-		skillPointsLabel = getLabelEntry ("Skill points", this);
-		resourcesLabel = getLabelEntry ("Resources", this);
-		magicLabel = getLabelEntry ("Magic", this);
-		racesLabel = getLabelEntry ("Races", this);
+		attrPointsLabel = getLabelEntry ("Attribute points", "cell 1 1", "cell 2 1", this);
+		skillPointsLabel = getLabelEntry ("Skill points", "cell 1 2", "cell 2 2", this);
+		resourcesLabel = getLabelEntry ("Resources", "cell 1 3", "cell 2 3", this);
+		magicLabel = getLabelEntry ("Magic", "cell 1 4", "cell 2 4", this);
+		racesLabel = getLabelEntry ("Races", "cell 1 5", "cell 2 5", this);
 
 
 		// commonPanel.add(getNew_radiobutton(), null);
@@ -50,9 +51,9 @@ public class PriorityGeneratorPanel extends JPanel implements cz.eowyn.srgen.mod
 		// commonPanel.add(getGenerateTreasure_button(), null);
 
 		JButton but = new JButton("Create");
-		this.add(but);
+		this.add(but, "cell 0 6 3 1");
 		
-		pcChanged ();
+		pcChanged (pc);
     }
     
     
@@ -69,21 +70,19 @@ public class PriorityGeneratorPanel extends JPanel implements cz.eowyn.srgen.mod
 		return entry;
     }
     
-    private JTextField getLabelEntry (String name, JComponent owner) {
-		Box box = Box.createHorizontalBox ();
+    private JTextField getLabelEntry (String name, String constraintLabel, String constraintValue, JComponent owner) {
 		JLabel label = new JLabel (name + ": ");
         JTextField entry = new JTextField ();
         entry.setEditable (false);
         entry.setFocusable (false);
         
-		box.add (label);
-		box.add (entry);
-		owner.add (box);
+		owner.add(label, constraintLabel);
+		owner.add(entry, constraintValue);
 		
 		return entry;
     }
     
-    public void pcChanged () {
+    public void pcChanged (PlayerCharacter pc) {
         attrPointsLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_ATTR_POINTS)));
         skillPointsLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_SKILL_POINTS)));
         resourcesLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_RESOURCES) + "\u00A5"));
@@ -113,6 +112,6 @@ public class PriorityGeneratorPanel extends JPanel implements cz.eowyn.srgen.mod
 
 	public void setPlayerCharacter (PlayerCharacter pc) {
     	this.pc = pc;
-    	pcChanged ();
+    	pcChanged (pc);
     }
 }

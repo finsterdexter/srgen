@@ -1,6 +1,5 @@
 package cz.eowyn.srgen.gui;
 
-import java.awt.LayoutManager;
 import java.util.Iterator;
 import java.util.Map;
 

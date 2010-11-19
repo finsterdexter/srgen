@@ -4,32 +4,35 @@
 package cz.eowyn.srgen.gui;
 
 import java.awt.BorderLayout;
-
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
+import cz.eowyn.srgen.model.EdgeAndFlaw;
 import cz.eowyn.srgen.model.ObjectListener;
+import cz.eowyn.srgen.model.PlayerCharacter;
 import cz.eowyn.srgen.model.RepositoryObject;
 import cz.eowyn.srgen.model.RepositoryTree;
 import cz.eowyn.srgen.model.RepositoryList;
+import cz.eowyn.srgen.model.Skill;
 
 
 
-class TreePanel extends JSplitPane implements ObjectListener {
+class TreePanel<R extends RepositoryObject> extends JSplitPane implements ObjectListener {
     private ObjectDetailPane detail = null;
     
-    private RepositoryTree root;
-    private RepositoryList selectedList = null;
+    private PlayerCharacter pc;
+    private RepositoryTree<R> root;
+    private RepositoryList<R> selectedList = null;
 
-    private RepositoryObject selected_node = null;
+    private R selected_node = null;
 
     
-	public TreePanel (RepositoryTree root, RepositoryList selectedList) {
+	public TreePanel (PlayerCharacter pc, RepositoryTree<R> root, RepositoryList<R> selectedList) {
 		super ();
+		this.pc = pc;
 		this.root = root;
 		this.selectedList = selectedList;
 
@@ -61,8 +64,12 @@ class TreePanel extends JSplitPane implements ObjectListener {
     	JButton button = new JButton ("Add  >>");
         button.addActionListener(new java.awt.event.ActionListener() {
         	public void actionPerformed(java.awt.event.ActionEvent e) {
+    			System.err.println ("SN1: " + selected_node);
+        		
         		if (selected_node != null) {
-        			System.out.println (selected_node.getName());
+        			System.err.println ("SN2: " + selected_node.getName());
+        			selectedList.add(selected_node);
+        			//pc.addRepositoryObject((Skill)selected_node, "", 0, 0);
         			//selectedDataModel.addRow(selected_node);
         		}
         	}
@@ -122,6 +129,7 @@ class TreePanel extends JSplitPane implements ObjectListener {
 
     public void objectSelected (RepositoryObject obj) {
     	detail.displayObject (obj);
+    	selected_node = (R)obj;
     }
 
 }

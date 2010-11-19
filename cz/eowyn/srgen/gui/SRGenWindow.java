@@ -6,30 +6,43 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import javax.swing.*;
 
 import cz.eowyn.srgen.Config;
 import cz.eowyn.srgen.Generator;
+import cz.eowyn.srgen.model.AdeptPower;
+import cz.eowyn.srgen.model.Bioware;
+import cz.eowyn.srgen.model.Contact;
+import cz.eowyn.srgen.model.Cyberware;
+import cz.eowyn.srgen.model.Deck;
+import cz.eowyn.srgen.model.EdgeAndFlaw;
+import cz.eowyn.srgen.model.Gear;
+import cz.eowyn.srgen.model.MageGear;
 import cz.eowyn.srgen.model.PlayerCharacter;
 import cz.eowyn.srgen.model.Repository;
 import cz.eowyn.srgen.model.RepositoryList;
+import cz.eowyn.srgen.model.Skill;
+import cz.eowyn.srgen.model.SourceBook;
+import cz.eowyn.srgen.model.Spell;
+import cz.eowyn.srgen.model.Vehicle;
 import cz.eowyn.srgen.io.ExportHandler;
 import cz.eowyn.srgen.model.PCListener;
 import cz.eowyn.srgen.gui.utils.IconUtilities;
 
 
-public class SRGenWindow extends JFrame {
+public class SRGenWindow extends JFrame implements PCListener {
 	private Repository repository = null;
-	
+
 	private JMenuBar main_menubar = null;
 	private JTabbedPane allCharsPane = null;
 	
 	private JFileChooser openFileChooser = null;
 	private JFileChooser exportFileChooser = null;
 	
-	private ArrayList pcListeners = null;
+	private ArrayList<PCListener> pcListeners = null;
 	
     public SRGenWindow () {
 		super ();
@@ -174,8 +187,10 @@ public class SRGenWindow extends JFrame {
     	allCharsPane.addTab (
     			pc.getString (PlayerCharacter.STR_CHARNAME),
     			null,
-    			getCharacterPane (pc),
+    			getCharacterPane(pc),
     			"");
+    	allCharsPane.setSelectedIndex(allCharsPane.getComponentCount()-1);
+    	pc.addListener (this);
     }
 
     void closeTab () {
@@ -187,6 +202,7 @@ public class SRGenWindow extends JFrame {
     	
     	allCharsPane.remove (index);
     	Generator.getCharacters ().remove (index);
+    	
     }
     /**
      * This method initializes treasures_jtabbedpane
@@ -202,19 +218,19 @@ public class SRGenWindow extends JFrame {
     	//treasures_jtabbedpane.setPreferredSize(
     	//    new java.awt.Dimension(450, 500));
 
-    	TreePanel  SourceBooks_Tab = new TreePanel (repository.getSourceBooks_Tree(), new RepositoryList());
-    	TreePanel  EdgeAndFlaw_Tab = new TreePanel (repository.getEdgeAndFlaw_Tree(), pc.getEdgeAndFlaw_List());
-    	TreePanel  Skill_Tab = new TreePanel (repository.getSkill_Tree(), pc.getSkill_List());
-    	TreePanel  Contacts_Tab = new TreePanel (repository.getContacts_Tree(), pc.getContact_List());
-    	TreePanel  Spell_Tab = new TreePanel (repository.getSpell_Tree(),  pc.getSpell_List());
-    	//TreePanel  Equipment_Tab = new TreePanel (repository.getEquipment_Tree());
-    	TreePanel  Gear_Tab = new TreePanel (repository.getGear_Tree(), pc.getGear_List());
-    	TreePanel  MageGear_Tab = new TreePanel (repository.getMageGear_Tree(), pc.getMageGear_List());
-    	TreePanel  Cyberware_Tab = new TreePanel (repository.getCyberware_Tree(), pc.getCyberware_List());
-    	TreePanel  Bioware_Tab = new TreePanel (repository.getBioware_Tree(), pc.getBioware_List ());
-    	TreePanel  Vehicles_Tab = new TreePanel (repository.getVehicles_Tree(), pc.getVehicle_List());
-    	TreePanel  Decks_Tab = new TreePanel (repository.getDecks_Tree(), pc.getDeck_List());
-    	TreePanel  AdeptPowers_Tab = new TreePanel (repository.getAdeptPowers_Tree(), pc.getAdeptPowers_List());
+    	TreePanel<SourceBook>  SourceBooks_Tab = new TreePanel<SourceBook> (null, repository.getSourceBooks_Tree(), new RepositoryList<SourceBook>(null));
+    	TreePanel<EdgeAndFlaw>  EdgeAndFlaw_Tab = new TreePanel<EdgeAndFlaw> (pc, repository.getEdgeAndFlaw_Tree(), pc.getEdgeAndFlaw_List());
+    	TreePanel<Skill>  Skill_Tab = new TreePanel<Skill> (pc, repository.getSkill_Tree(), pc.getSkill_List());
+    	TreePanel<Contact>  Contacts_Tab = new TreePanel<Contact> (pc, repository.getContacts_Tree(), pc.getContact_List());
+    	TreePanel<Spell>  Spell_Tab = new TreePanel<Spell> (pc, repository.getSpell_Tree(),  pc.getSpell_List());
+    	//TreePanel  Equipment_Tab = new TreePanel (pc, repository.getEquipment_Tree());
+    	TreePanel<Gear>  Gear_Tab = new TreePanel<Gear> (pc, repository.getGear_Tree(), pc.getGear_List());
+    	TreePanel<MageGear>  MageGear_Tab = new TreePanel<MageGear> (pc, repository.getMageGear_Tree(), pc.getMageGear_List());
+    	TreePanel<Cyberware>  Cyberware_Tab = new TreePanel<Cyberware> (pc, repository.getCyberware_Tree(), pc.getCyberware_List());
+    	TreePanel<Bioware>  Bioware_Tab = new TreePanel<Bioware> (pc, repository.getBioware_Tree(), pc.getBioware_List ());
+    	TreePanel<Vehicle>  Vehicles_Tab = new TreePanel<Vehicle> (pc, repository.getVehicles_Tree(), pc.getVehicle_List());
+    	TreePanel<Deck>  Decks_Tab = new TreePanel<Deck> (pc, repository.getDecks_Tree(), pc.getDeck_List());
+    	TreePanel<AdeptPower>  AdeptPowers_Tab = new TreePanel<AdeptPower> (pc, repository.getAdeptPowers_Tree(), pc.getAdeptPowers_List());
     	
     	PriorityGeneratorPanel priorityGeneratorPanel = new PriorityGeneratorPanel (pc);
     	SummaryPanel summaryPanel = new SummaryPanel (pc);
@@ -385,7 +401,9 @@ public class SRGenWindow extends JFrame {
     }
      
      public void addPCListener (PCListener listener) {
-    	 pcListeners.add (listener);
+ 		if (! pcListeners.contains(listener)) {
+ 			pcListeners.add (listener);
+ 		}
      }
      
      protected void fireGroupChanged () {
@@ -401,4 +419,17 @@ public class SRGenWindow extends JFrame {
 //		}
     	 
      }
+
+	@Override
+	public void pcChanged(PlayerCharacter pc) {
+		System.err.println("xxx");
+		int index = Generator.getCharacters().indexOf(pc);
+		allCharsPane.setTitleAt(index, pc.getString(PlayerCharacter.STR_CHARNAME));
+	}
+
+	@Override
+	public void pcExchanged(PlayerCharacter pc) {
+		// TODO Auto-generated method stub
+		
+	}
 }

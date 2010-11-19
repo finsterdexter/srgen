@@ -55,7 +55,7 @@ public class ExportHandler {
 			addToTokenMap (new PoolsToken ());
 			addToTokenMap (new SkillToken ());
 			addToTokenMap (new VehicleToken ());
-			addToTokenMap (new GearToken ());
+			//addToTokenMap (new GearToken ());
 			addToTokenMap (new VitalsToken ());
 		}
 	}

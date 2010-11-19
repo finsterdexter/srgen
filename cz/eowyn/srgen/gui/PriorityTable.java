@@ -90,7 +90,7 @@ public class PriorityTable extends JPanel implements ActionListener, PCListener 
         pc.setPriorities(priorities);
 	}
 
-	public void pcChanged () {
+	public void pcChanged (PlayerCharacter pc) {
 		//
 	}
 

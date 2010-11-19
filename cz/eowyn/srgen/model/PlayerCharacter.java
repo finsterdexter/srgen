@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-public class PlayerCharacter {
-	ArrayList listeners;
-	
+import cz.eowyn.srgen.Config;
+
+public class PlayerCharacter implements PCAssetListener {
 	public static final int PRIO_RACE = 0;
 	public static final int PRIO_MAGIC = 1;
 	public static final int PRIO_ATTRS = 2;
@@ -112,34 +112,39 @@ public class PlayerCharacter {
 	private static int STR_MAX = STR_IMAGE;
 	
 	//public static final int STAT_ = ;
+	
+	private ArrayList<PCListener> listeners;
+	
+	// Index used to generate new char's name
+	private static int numNewChars = 0;
 
 	private int[] stats;
 	// index is priority type (PRIO_*), value is priority (A-E == 0-4)  
 	private int[] priorities;
 	private String[] strings;
 
-	private RepositoryList edges_and_flaws;
-	private RepositoryList skills;
-	private RepositoryList spells;
-	private RepositoryList contacts;
+	private RepositoryList<EdgeAndFlaw> edges_and_flaws;
+	private RepositoryList<Skill> skills;
+	private RepositoryList<Spell> spells;
+	private RepositoryList<Contact> contacts;
 
-	private RepositoryList gear;
-	private RepositoryList mage_gear;
-	private RepositoryList cyberwares;
-	private RepositoryList biowares;
-	private RepositoryList vehicles;
-	private RepositoryList decks;
-	private RepositoryList adept_powers;
+	private RepositoryList<Gear> gear;
+	private RepositoryList<MageGear> mage_gear;
+	private RepositoryList<Cyberware> cyberwares;
+	private RepositoryList<Bioware> biowares;
+	private RepositoryList<Vehicle> vehicles;
+	private RepositoryList<Deck> decks;
+	private RepositoryList<AdeptPower> adept_powers;
 
-	private RepositoryList lifestyles;
-	private RepositoryList credsticks;
+	private RepositoryList<Lifestyle> lifestyles;
+	private RepositoryList<Credstick> credsticks;
 	
 
 	private boolean isDirty = false;
 	private boolean signalActive = false;
 	
 	public PlayerCharacter () {
-		listeners = new ArrayList (10);
+		listeners = new ArrayList<PCListener> (10);
 
 		stats = new int[STAT_MAX+1];
 		strings = new String[STR_MAX + 1];
@@ -149,23 +154,28 @@ public class PlayerCharacter {
 		for (int i = 0; i < 5; i++) {
 			priorities[i] = i;
 		}
-		
-		edges_and_flaws = new RepositoryList (5);
-		skills = new RepositoryList (10);
-		spells = new RepositoryList (10);
-		contacts = new RepositoryList (5);
 
-		gear = new RepositoryList (10);
-		mage_gear = new RepositoryList (10);
-		cyberwares = new RepositoryList (5);
-		biowares = new RepositoryList (5);
-		vehicles = new RepositoryList (5);
-		decks = new RepositoryList (5);		
-		adept_powers = new RepositoryList (5);		
+		strings[STR_CHARNAME] = "new-" + numNewChars++;
+		strings[STR_PLAYERNAME] = Config.get("srgen.player_name");
 		
-		lifestyles = new RepositoryList (3);
-		credsticks = new RepositoryList (5);
+		edges_and_flaws = new RepositoryList<EdgeAndFlaw> (this);
+		skills = new RepositoryList<Skill> (this);
+		spells = new RepositoryList<Spell> (this);
+		contacts = new RepositoryList<Contact> (this);
+
+		gear = new RepositoryList<Gear> (this);
+		mage_gear = new RepositoryList<MageGear> (this);
+		cyberwares = new RepositoryList<Cyberware> (this);
+		biowares = new RepositoryList<Bioware> (this);
+		vehicles = new RepositoryList<Vehicle> (this);
+		decks = new RepositoryList<Deck> (this);		
+		adept_powers = new RepositoryList<AdeptPower> (this);		
 		
+		lifestyles = new RepositoryList<Lifestyle> (this);
+		credsticks = new RepositoryList<Credstick> (this);
+
+		edges_and_flaws.addListener(this);
+		// FIXME: listen to other tables
 		computeInitialResources ();
 		isDirty = false;
 	}
@@ -213,14 +223,14 @@ public class PlayerCharacter {
 
 		recompute();
 
-		Iterator iter = listeners.iterator();
+		Iterator<PCListener> iter = listeners.iterator();
 		while (iter.hasNext ()) {
-			PCListener ls = (PCListener) iter.next ();
+			PCListener ls = iter.next ();
 			try {
-				ls.pcChanged();
+				ls.pcChanged(this);
 			}
 			catch (Exception e) {
-				
+				// FIXME: don't catch or at least not all
 			}
 		}
 		
@@ -264,7 +274,22 @@ public class PlayerCharacter {
 	public void resetDirty () {
 		this.isDirty = false;
 	}
-	
+
+	public void addRepositoryObject (EdgeAndFlaw obj, String custom, int amount, int amount100) {
+		edges_and_flaws.add (obj);
+		firePCChanged ();
+	}
+
+	public void addRepositoryObject (Skill obj, String custom, int amount, int amount100) {
+		skills.add (obj);
+		firePCChanged ();
+	}
+
+	public void addRepositoryObject (Spell obj, String custom, int amount, int amount100) {
+		spells.add (obj);
+		firePCChanged ();
+	}
+
 	public void AddEdgeAndFlaw (EdgeAndFlaw edge, String custom, boolean unique) {
 		edges_and_flaws.add (edge);
 		firePCChanged ();
@@ -274,7 +299,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getEdgeAndFlaw_List () {
+	public RepositoryList<EdgeAndFlaw> getEdgeAndFlaw_List () {
 		return edges_and_flaws;
 	}
 
@@ -288,7 +313,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getSkill_List () {
+	public RepositoryList<Skill> getSkill_List () {
 		return skills;
 	}
 
@@ -302,7 +327,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getSpell_List () {
+	public RepositoryList<Spell> getSpell_List () {
 		return spells;
 	}
 
@@ -315,7 +340,7 @@ public class PlayerCharacter {
 	public void RemoveLifestyle (Lifestyle lifestyle) {
 	}
 	
-	public RepositoryList getLifestyle_List () {
+	public RepositoryList<Lifestyle> getLifestyle_List () {
 		return lifestyles;
 	}
 
@@ -328,7 +353,7 @@ public class PlayerCharacter {
 	public void RemoveCredstick (Credstick credstick) {
 	}
 	
-	public RepositoryList getCredstick_List () {
+	public RepositoryList<Credstick> getCredstick_List () {
 		return credsticks;
 	}
 
@@ -343,7 +368,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getContact_List () {
+	public RepositoryList<Contact> getContact_List () {
 		return contacts;
 	}
 
@@ -357,7 +382,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getGear_List () {
+	public RepositoryList<Gear> getGear_List () {
 		return gear;
 	}
 
@@ -371,7 +396,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getMageGear_List () {
+	public RepositoryList<MageGear> getMageGear_List () {
 		return mage_gear;
 	}
 
@@ -385,7 +410,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getCyberware_List () {
+	public RepositoryList<Cyberware> getCyberware_List () {
 		return cyberwares;
 	}
 
@@ -399,7 +424,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getBioware_List () {
+	public RepositoryList<Bioware> getBioware_List () {
 		return biowares;
 	}
 
@@ -413,7 +438,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getVehicle_List () {
+	public RepositoryList<Vehicle> getVehicle_List () {
 		return vehicles;
 	}
 
@@ -427,7 +452,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getDeck_List () {
+	public RepositoryList<Deck> getDeck_List () {
 		return decks;
 	}
 	
@@ -441,7 +466,7 @@ public class PlayerCharacter {
 		//edges_and_flaws.add (edge);
 	}
 	
-	public RepositoryList getAdeptPowers_List () {
+	public RepositoryList<AdeptPower> getAdeptPowers_List () {
 		return adept_powers;
 	}
 	
@@ -468,5 +493,10 @@ public class PlayerCharacter {
 	
 	public int getCombatPool () {
 		return (getStat (STAT_INT) + getStat (STAT_QCK) + getStat (STAT_WIL)) / 2;
+	}
+
+	@Override
+	public void pcAssetChanged(PlayerCharacter pc, RepositoryList list) {
+		firePCChanged ();
 	}	
 }

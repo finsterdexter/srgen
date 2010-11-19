@@ -10,23 +10,23 @@ import cz.eowyn.srgen.model.AssetTableModel;
 import cz.eowyn.srgen.model.ObjectListener;
 import cz.eowyn.srgen.model.RepositoryObject;
 import cz.eowyn.srgen.model.RepositoryList;
+import cz.eowyn.srgen.gui.actions.*;
 
+class SelectedObjectsPane<R extends RepositoryObject> extends JScrollPane {
 
-class SelectedObjectsPane extends JScrollPane {
-
-    protected RepositoryList selectedList = null;
-    protected RepositoryObject selected_node = null;
-    protected AssetTableModel selectedDataModel;
+    //protected RepositoryList<R> selectedList = null;
+    protected R selected_node = null;
+    protected AssetTableModel<R> selectedDataModel;
 
     protected JTable table;
     protected ObjectListener listener = null;
     
 	
-	public SelectedObjectsPane(RepositoryList selectedList, String[] columns) {
+	public SelectedObjectsPane (RepositoryList<R> selectedList, String[] columns) {
 		super();
 
-		this.selectedList = selectedList;
-		this.selectedDataModel = new AssetTableModel (selectedList, columns);
+		//this.selectedList = selectedList;
+		this.selectedDataModel = new AssetTableModel<R> (selectedList, columns);
 
 		createTable ();
 	}
@@ -45,11 +45,11 @@ class SelectedObjectsPane extends JScrollPane {
 				
 				ListSelectionModel lsm = (ListSelectionModel)e.getSource();
 				if (lsm.isSelectionEmpty()) {
-					System.out.println ("no rows are selected");
+					System.err.println ("no rows are selected");
 				} else {	
 					int selectedRow = lsm.getMinSelectionIndex();
-					System.out.println ("selectedRow is selected: " + selectedRow);
-					fireObjectSelected ((RepositoryObject)selectedList.get (selectedRow));
+					System.err.println ("selectedRow is selected: " + selectedRow);
+					fireObjectSelected (selectedDataModel.getObjectAt (selectedRow));
 					
 				}
 			}
@@ -61,7 +61,7 @@ class SelectedObjectsPane extends JScrollPane {
 		this.listener = listener;
 	}
 	
-	protected void fireObjectSelected (RepositoryObject obj) {
+	protected void fireObjectSelected (R obj) {
 		if (listener != null) {
 			listener.objectSelected (obj);
 		}

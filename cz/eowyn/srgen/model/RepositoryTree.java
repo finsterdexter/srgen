@@ -5,18 +5,18 @@ import java.util.Enumeration;
 import java.util.ArrayList;
 import javax.swing.tree.TreeNode;
 
-public class RepositoryTree extends RepositoryObject {
+public class RepositoryTree<R extends RepositoryObject> extends RepositoryObject {
 
-	private ArrayList child_list = null;
+	private ArrayList<RepositoryObject> child_list = null;
 	private int level = 0;
 	
 	public RepositoryTree (String Name, int level) {
 		super (Name, null);
-		child_list = new ArrayList (10);
+		child_list = new ArrayList<RepositoryObject> (10);
 		this.level = level;
 	}
 
-	public void addChild (RepositoryObject child) {
+	public void addChild (R child) {
 		child_list.add (child);
 		child.setParent (this);
 	}
@@ -49,7 +49,7 @@ public class RepositoryTree extends RepositoryObject {
 		return child_list.size ();
 	}
 	
-	public Enumeration children () {
+	public Enumeration<RepositoryObject> children () {
 		return Collections.enumeration (child_list);
 	}
 	

@@ -1,20 +1,22 @@
 package cz.eowyn.srgen.model;
 
 import java.util.Map;
-
 import javax.swing.tree.TreeNode;
 
+
 public abstract class RepositoryObject implements TreeNode {
-	private String Name = null;
-	private Map values = null;
+	private String name = null;
+	private Map<String, String> values = null;
+	private String custom = null;
+	private float amount = 0;
 	
 	private RepositoryObject parent = null;
 	
 	public RepositoryObject () {
 	}
 	
-	public RepositoryObject (String Name, Map values) {
-		this.Name = Name;
+	public RepositoryObject (String name, Map<String, String> values) {
+		this.name = name;
 		this.values = values;
 	}
 
@@ -23,14 +25,14 @@ public abstract class RepositoryObject implements TreeNode {
 	}
 
 	public String getName () {
-		return Name;
+		return name;
 	}
 
 	public void setName(String Name) {
-		this.Name = Name;
+		this.name = Name;
 	}
 
-	public Map getValues () {
+	public Map<String, String> getValues () {
 		return values;
 	}
 
@@ -44,13 +46,44 @@ public abstract class RepositoryObject implements TreeNode {
 
 	public String getValue (String key)
 	{
+		if (key.equals("Name"))
+			return getName ();
+		
 		if (values.containsKey(key)) {
-			return (String) values.get(key);
+			return values.get(key);
 		} else {
 			return null;
 		}
 	}
 	
+	/**
+	 * @param custom the custom to set
+	 */
+	public void setCustom(String custom) {
+		this.custom = custom;
+	}
+
+	/**
+	 * @return the custom
+	 */
+	public String getCustom() {
+		return custom;
+	}
+
+	/**
+	 * @param amount the amount to set
+	 */
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+
+	/**
+	 * @return the amount
+	 */
+	public float getAmount() {
+		return amount;
+	}
+
 	// TreeNode interface
 	public boolean isLeaf () {
 		return true;

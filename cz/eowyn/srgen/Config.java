@@ -1,6 +1,7 @@
 package cz.eowyn.srgen;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,22 +12,22 @@ import javax.swing.SwingConstants;
 //import pcgen.core.Globals;
 //import pcgen.core.SettingsHandler;
 
-public class Config {
-
-	public static final int DEF_MAXIMUM_EORF = 7
-	;
-	static private Properties options = new Properties ();
-	ArrayList contacts_files = null;
+public class Config {	
+	private static Properties options;
+	//ArrayList contacts_files = null;
 	
-	private static int pcTabPlacement = SwingConstants.BOTTOM;
-	private static int maximumEorF = DEF_MAXIMUM_EORF;
+	private static int pcTabPlacement;
+	private static int maximumEorF;
+	
+	private static ArrayList<String[]> sources = new ArrayList<String[]> ();
+	
 	
 //	private static File pcgenSystemDir = new File(Globals.getDefaultPath() + File.separator + "system"); //$NON-NLS-1$
 //	private static File pcgenThemePackDir = new File(Globals.getDefaultPath() + File.separator + "lib" + File.separator //$NON-NLS-1$
 //		    + "themes"); //$NON-NLS-1$
 //	private static File pcgenOutputSheetDir = new File(Globals.getDefaultPath() + File.separator + "outputsheets"); //$NON-NLS-1$
 
-	public Config() {
+	private Config() {
 		super();
 		// TODO Auto-generated constructor stub
 		
@@ -62,7 +63,7 @@ public class Config {
 		String aPath;
 
 		// first see if it was specified on the command line
-		aPath = System.getProperty ("pcgen.options");
+		aPath = System.getProperty ("srgen.options");
 
 		if (aPath == null) {
 			aPath = getFilePath ("options.ini");
@@ -73,11 +74,23 @@ public class Config {
 	}
 
 	public static boolean loadConfig () {
-		// Globals.getFilterPath() will _always_ return a string
-		//final String filterLocation = Globals.getFilterPath();
+		if (options != null)
+			return true;
+		
+		Properties defaults = new Properties ();
+		try {
+			InputStream in = Config.class.getClassLoader ().getResourceAsStream ("srgen.properties");
+			defaults.load(in);
+			in.close();
+		} catch (IOException e) {
+			System.err.println ("Can't load default opts $CP/srgen.properties");
+			// FIXME: make it an error
+		}
+		options = new Properties (defaults);
 
+		
 		FileInputStream in = null;
-
+		
 		String filename = getOptionsPath ();
 		try {
 			in = new FileInputStream (filename);
@@ -100,9 +113,19 @@ public class Config {
 			//Not much to do about it...
 			System.err.println ("Can't close opts " + filename);
 		}
-		
+	
+	
 		pcTabPlacement = tabPlacementFromString (getOptions ().getProperty ("srgen.gui.pcTabPlacement", "bottom"));
-		maximumEorF = getInt ("srgen.rules.maximumEorF", DEF_MAXIMUM_EORF);
+		maximumEorF = getInt ("srgen.rules.maximumEorF");
+		
+		for (int i=0; ; i++) {
+			String s = options.getProperty ("srgen.rules.source." + i, null);
+			if (s == null) break;
+			String[] src = s.split (":", 2);
+			src[0] = src[0].toLowerCase();
+			sources.add(src);
+		}
+
 		return true;
 	}
 
@@ -114,7 +137,7 @@ public class Config {
 		setInt ("srgen.rules.maximumEorF", maximumEorF);
 		
 		//final String fType = getFilePaths();
-		final String fType = "user";
+		//final String fType = "user";
 		final String aLoc = getFilePath ("");
 		File file = new File (aLoc);
 
@@ -158,8 +181,8 @@ public class Config {
 		return options;
 	}
 
-	protected static int getInt (String key, int default_value) {
-		return Integer.parseInt (getOptions ().getProperty (key, String.valueOf (default_value)));		
+	protected static int getInt (String key) {
+		return Integer.parseInt (options.getProperty (key));		
 	}
 	
 	protected static void setInt (String key, int value) {
@@ -222,5 +245,15 @@ public class Config {
 	public static int getMaximumEorF ()
 	{
 		return maximumEorF;
+	}
+	
+	public static ArrayList<String[]> getSources ()
+	{
+		return sources;
+	}
+	
+	public static String get (String key)
+	{
+		return options.getProperty(key);
 	}
 }

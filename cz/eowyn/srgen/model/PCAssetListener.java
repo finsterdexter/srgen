@@ -28,7 +28,6 @@ package cz.eowyn.srgen.model;
  * @author benkovsk
  *
  */
-public interface PCListener {
-	public abstract void pcChanged (PlayerCharacter pc);
-	public abstract void pcExchanged (PlayerCharacter pc);
+public interface PCAssetListener {
+	public abstract void pcAssetChanged (PlayerCharacter pc, RepositoryList list);
 }
