@@ -83,19 +83,19 @@ public class PriorityGeneratorPanel extends JPanel implements cz.eowyn.srgen.mod
     }
     
     public void pcChanged (PlayerCharacter pc) {
-        attrPointsLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_ATTR_POINTS)));
-        skillPointsLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_SKILL_POINTS)));
-        resourcesLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_RESOURCES) + "\u00A5"));
+        attrPointsLabel.setText (String.valueOf (pc.getInt(PlayerCharacter.STAT_ATTR_POINTS)));
+        skillPointsLabel.setText (String.valueOf (pc.getInt(PlayerCharacter.STAT_SKILL_POINTS)));
+        resourcesLabel.setText (String.valueOf (pc.getInt(PlayerCharacter.STAT_RESOURCES) + "\u00A5"));
 
-        int magic = pc.getStat(PlayerCharacter.STAT_MAGIC);
-
+        int magical = pc.getInt(PlayerCharacter.STAT_MAGICAL);
         String magicText;
-        switch (magic) {
+
+        switch (magical) {
         case 2: 
         	magicText = "Full magical abilities, astral walking";
         	break;
         case 1:
-        	magicText = "adept/...?";
+        	magicText = "Adept/Aspected magician";
         	break;
         default:
         	magicText = "No magical abilities";
@@ -103,7 +103,25 @@ public class PriorityGeneratorPanel extends JPanel implements cz.eowyn.srgen.mod
         }
 
         magicLabel.setText (magicText);
-        racesLabel.setText (String.valueOf (pc.getStat(PlayerCharacter.STAT_ALLOWED_RACES)));
+        
+        int races = pc.getInt(PlayerCharacter.STAT_ALLOWED_RACES);
+        String racesText;
+        
+        switch (races) {
+        case 0: 
+        	racesText = "Human";
+        	break;
+        case 1:
+        	racesText = "Dwarf/Ork";
+        	break;
+        default:
+        	racesText = "Elf/Troll";
+        	break;
+        }
+        
+        racesLabel.setText (racesText);
+        
+        //System.err.println("PriorityGenerator: " + String.valueOf(pc.isDirty()));
     }
 
 	public void pcExchanged (PlayerCharacter pc) {

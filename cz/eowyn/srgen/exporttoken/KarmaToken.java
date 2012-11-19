@@ -14,16 +14,16 @@ public class KarmaToken extends Token {
 		String ret = tokenSource;
 		
 		if (tokenSource.equals("KARMA.TOTAL")) {
-			ret = String.valueOf (pc.getStat (PlayerCharacter.STAT_KARMA_TOTAL));
+			ret = String.valueOf (pc.getInt (PlayerCharacter.STAT_KARMA_TOTAL));
 		}
 		else if (tokenSource.equals("KARMA.SPENT")) {
-			ret = String.valueOf (pc.getStat (PlayerCharacter.STAT_KARMA_SPENT));
+			ret = String.valueOf (pc.getInt (PlayerCharacter.STAT_KARMA_SPENT));
 		}
 		else if (tokenSource.equals("KARMA.UNSPENT")) {
-			ret = String.valueOf (pc.getStat (PlayerCharacter.STAT_KARMA_TOTAL) - pc.getStat (PlayerCharacter.STAT_KARMA_SPENT));
+			ret = String.valueOf (pc.getInt (PlayerCharacter.STAT_KARMA_TOTAL) - pc.getInt (PlayerCharacter.STAT_KARMA_SPENT));
 		}
 		else if (tokenSource.equals("KARMA.FREE")) {
-			ret = String.valueOf (pc.getStat (PlayerCharacter.STAT_KARMA_TOTAL) - pc.getStat (PlayerCharacter.STAT_KARMA_SPENT) - pc.getStat (PlayerCharacter.STAT_POOL_KARMA) + 1);
+			ret = String.valueOf (pc.getInt (PlayerCharacter.STAT_KARMA_TOTAL) - pc.getInt (PlayerCharacter.STAT_KARMA_SPENT) - pc.getInt (PlayerCharacter.STAT_POOL_KARMA) + 1);
 		}
 		return ret;
 	}

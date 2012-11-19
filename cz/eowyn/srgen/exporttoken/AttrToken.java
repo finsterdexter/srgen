@@ -95,7 +95,7 @@ public class AttrToken extends Token {
 				}
 			}
 			
-			ret = String.valueOf (pc.getStat (baseAttr + modifier));
+			ret = String.valueOf (pc.getInt (baseAttr + modifier));
 		}
 		return ret;
 	}

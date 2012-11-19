@@ -14,25 +14,25 @@ public class PoolsToken extends Token {
 		int stat = 0;
 		
 		if (tokenSource.equals("POOLS.KARMA")) {
-			stat = pc.getStat( PlayerCharacter.STAT_POOL_KARMA);
+			stat = pc.getInt( PlayerCharacter.STAT_POOL_KARMA);
 		}
 		else if (tokenSource.equals("POOLS.COMBAT")) {
-			stat = pc.getStat( PlayerCharacter.STAT_POOL_COMBAT);
+			stat = pc.getInt( PlayerCharacter.STAT_POOL_COMBAT);
 		}
 		else if (tokenSource.equals("POOLS.CONTROL")) {
-			stat = pc.getStat( PlayerCharacter.STAT_POOL_CONTROL);
+			stat = pc.getInt( PlayerCharacter.STAT_POOL_CONTROL);
 		}
 		else if (tokenSource.equals("POOLS.HACKING")) {
-			stat = pc.getStat( PlayerCharacter.STAT_POOL_HACKING);
+			stat = pc.getInt( PlayerCharacter.STAT_POOL_HACKING);
 		}
 		else if (tokenSource.equals("POOLS.SPELL")) {
-			stat = pc.getStat( PlayerCharacter.STAT_POOL_SPELL);
+			stat = pc.getInt( PlayerCharacter.STAT_POOL_SPELL);
 		}
 		else if (tokenSource.equals("POOLS.TASK")) {
-			stat = pc.getStat( PlayerCharacter.STAT_POOL_TASK);
+			stat = pc.getInt( PlayerCharacter.STAT_POOL_TASK);
 		}
 		else if (tokenSource.equals("POOLS.COMBAT_MOD")) {
-			stat = pc.getStat( PlayerCharacter.STAT_POOL_COMBAT_MOD);
+			stat = pc.getInt( PlayerCharacter.STAT_POOL_COMBAT_MOD);
 		}
 		else {
 			return tokenSource;
