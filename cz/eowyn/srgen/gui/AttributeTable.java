@@ -1,11 +1,20 @@
 package cz.eowyn.srgen.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.UIManager;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import cz.eowyn.srgen.model.PlayerCharacter;
@@ -29,14 +38,17 @@ public class AttributeTable extends JPanel{
 	}
 	
     private JTable getTable () {
+
         dataModel = new AbstractTableModel() {
         	String[] columnNames = {
             		"Attribute",
-            		"Original",
+            		"Base",
                     "Racial adj.",
                     "Other adj.",
                     "M3",
-                    "Total"};
+                    "Total",
+                    "+",
+                    "-"};
 
         	Object[] data = { 
         			"Body", 
@@ -46,21 +58,47 @@ public class AttributeTable extends JPanel{
         			"Intelligence", 
         			"Willpower" };
         	
-        	public int getColumnCount() { return 6; }
+
+        	
+        	public int getColumnCount() { return 8; }
             public int getRowCount() { return 6;}
-            public Object getValueAt(int row, int col) {
-            	if (col == 0) {
-            		return data[row];
-            	} else {
+            public Object getValueAt(final int row, final int col) {
+            	switch (col) {
+            	case 0: return data[row];
+            	case 6:
+            		final JButton butPlus = new JButton("+");
+            		butPlus.addActionListener(new ActionListener() {
+            			public void actionPerformed(ActionEvent arg0) {
+            				int stat = pc.STAT_ATTR_BASE + 5*row;
+            				if (pc.getInt(stat) < 6) {
+            					pc.setStat(stat, pc.getInt(stat)+1);
+            					pc.setStat(pc.STAT_ATTR_POINTS_SPENT, pc.getInt(pc.STAT_ATTR_POINTS_SPENT)+1);
+            				}
+            			}
+            		});
+            		return butPlus;
+            	case 7:
+            		final JButton butMinus = new JButton("-");
+            		butMinus.addActionListener(new ActionListener() {
+            			public void actionPerformed(ActionEvent arg0) {
+            				int stat = pc.STAT_ATTR_BASE + 5*row;
+            				if (pc.getInt(stat) > 1) {
+            					pc.setStat(stat, pc.getInt(stat)-1);
+            					pc.setStat(pc.STAT_ATTR_POINTS_SPENT, pc.getInt(pc.STAT_ATTR_POINTS_SPENT)-1);
+            				}
+            			}
+            		});
+            		return butMinus;
+            	default:
             		// FIXME: 5 is ugly hardwired
-            		return new Integer (pc.getStat (PlayerCharacter.STAT_BOD_BASE + 5 * row + (col - 1)));
+            		return new Integer (pc.getInt (PlayerCharacter.STAT_BOD_BASE + 5 * row + (col - 1)));
             	}
             }
             public String getColumnName(int col) {
                 return columnNames[col];
             }
             public boolean isCellEditable(int row, int col) {
-            	return (col != 0 && col != 5);
+            	return (col != 0 && col < 5);
             }
 
             public Class getColumnClass(int col) {
@@ -81,12 +119,54 @@ public class AttributeTable extends JPanel{
         };
         
         JTable table = new JTable (dataModel);
+        
+    	
+
     	table.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
-        return table;
+		TableCellRenderer buttonRenderer = new JTableButtonRenderer();
+		table.getColumn("+").setCellRenderer(buttonRenderer);
+		table.getColumn("-").setCellRenderer(buttonRenderer);
+		table.addMouseListener(new JTableButtonMouseListener(table));
+		return table;
     }
     
     public void setPlayerCharacter (PlayerCharacter pc) {
     	this.pc = pc;
     	dataModel.setValueAt(null, 0, 0);
     }
-}
+    
+    // Taken from http://www.cordinc.com/blog/2010/01/jbuttons-in-a-jtable.html
+    private static class JTableButtonRenderer implements TableCellRenderer {		
+		@Override 
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			JButton button = (JButton)value;
+			if (isSelected) {
+				button.setForeground(table.getSelectionForeground());
+				button.setBackground(table.getSelectionBackground());
+		    } else {
+		    	button.setForeground(table.getForeground());
+		    	button.setBackground(UIManager.getColor("Button.background"));
+		    }
+			return button;	
+		}
+	}
+
+    private static class JTableButtonMouseListener extends MouseAdapter {
+		private final JTable table;
+		
+		public JTableButtonMouseListener(JTable table) {
+			this.table = table;
+		}
+
+		public void mouseClicked(MouseEvent e) {
+			int column = table.getColumnModel().getColumnIndexAtX(e.getX());
+			int row    = e.getY()/table.getRowHeight(); 
+
+			if (row < table.getRowCount() && row >= 0 && column < table.getColumnCount() && column >= 0) {
+			    Object value = table.getValueAt(row, column);
+			    if (value instanceof JButton) {
+			    	((JButton)value).doClick();
+			    }
+			}
+		}
+	}}
