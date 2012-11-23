@@ -150,6 +150,16 @@ public class Generator {
 		
 	}
 	
+	public static void saveCharacter (String filename, PlayerCharacter pc) {
+		NSRCG3_SR3_Loader pcloader = new NSRCG3_SR3_Loader (repository);
+		try {
+			pcloader.ExportFile (filename, pc);
+		} catch (Exception e) {
+			System.err.println ("Could not save file");
+	        e.printStackTrace ();
+		}
+	}
+	
 	public static ArrayList<PlayerCharacter> getCharacters() {
 		return characters;
 	}
