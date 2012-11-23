@@ -44,6 +44,7 @@ public class SRGenWindow extends JFrame implements PCListener {
 	
 	private ArrayList<PCListener> pcListeners = null;
 	
+	public final String TITLE = "Shadowrun character generator";
     public SRGenWindow () {
 		super ();
 
@@ -56,11 +57,11 @@ public class SRGenWindow extends JFrame implements PCListener {
         this.setContentPane (getAllCharsPane ());
         this.setTitle ("Shadowrun character generator");
         this.setIconImage (IconUtilities.getImageIcon ("Icon.gif").getImage());
+        this.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         this.setJMenuBar (getMain_menubar());
-
+        
         this.openFileChooser = new JFileChooser ();
         //this.fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-
         this.exportFileChooser = new JFileChooser ();
         //exportFileChooser.addChoosableFileFilter();
         //exportFileChooser.ensureFileIsVisible();
@@ -98,7 +99,15 @@ public class SRGenWindow extends JFrame implements PCListener {
         JMenu file_menu = new JMenu ("File");
 
         JMenuItem new_menu = new JMenuItem ("New");
-        JMenuItem open_menu = new JMenuItem ("Open");
+        new_menu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+            	PlayerCharacter pc = Generator.newCharacter();
+                addPC (pc);
+                fireGroupChanged ();
+            }
+        });
+
+        JMenuItem open_menu = new JMenuItem ("Open ...");
         open_menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
             	int returnVal = openFileChooser.showOpenDialog(SRGenWindow.this);
@@ -115,8 +124,37 @@ public class SRGenWindow extends JFrame implements PCListener {
         });
 
         JMenuItem save_menu = new JMenuItem ("Save");
+        save_menu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+            	String filename = getCurrentCharacter ().getFilename();
+            	
+            	if (filename == null) {
+            		int returnVal = openFileChooser.showSaveDialog(SRGenWindow.this);
+            		if (returnVal == JFileChooser.APPROVE_OPTION) {
+            			filename = openFileChooser.getSelectedFile().getAbsolutePath();
+            		} else {
+            			return;
+            		}
+            	}
+                Generator.saveCharacter (filename, getCurrentCharacter ());
+                //fireGroupChanged ();
+            }
+        });
 
-        JMenuItem export_menu = new JMenuItem ("Export");
+        JMenuItem save_as_menu = new JMenuItem ("Save as ...");
+        save_as_menu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent e) {
+            	//openFileChooser.setCurrentDirectory(File().getDir());
+            	int returnVal = openFileChooser.showSaveDialog(SRGenWindow.this);
+            	if (returnVal == JFileChooser.APPROVE_OPTION) {
+            		String filename = openFileChooser.getSelectedFile().getAbsolutePath();
+                    Generator.saveCharacter (filename, getCurrentCharacter ());
+                    //fireGroupChanged ();
+            	}
+            }
+        });
+
+        JMenuItem export_menu = new JMenuItem ("Export ...");
         export_menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent e) {
             	int returnVal = exportFileChooser.showOpenDialog(SRGenWindow.this);
@@ -143,9 +181,11 @@ public class SRGenWindow extends JFrame implements PCListener {
                 System.exit(0);
             }
         });
+
         file_menu.add (new_menu);
         file_menu.add (open_menu);
         file_menu.add (save_menu);
+        file_menu.add (save_as_menu);
         file_menu.add (export_menu);
         file_menu.add (close_menu);
         file_menu.add (quit_menu);
@@ -232,25 +272,25 @@ public class SRGenWindow extends JFrame implements PCListener {
     	TreePanel<Deck>  Decks_Tab = new TreePanel<Deck> (pc, repository.getDecks_Tree(), pc.getDeck_List());
     	TreePanel<AdeptPower>  AdeptPowers_Tab = new TreePanel<AdeptPower> (pc, repository.getAdeptPowers_Tree(), pc.getAdeptPowers_List());
     	
-    	PriorityGeneratorPanel priorityGeneratorPanel = new PriorityGeneratorPanel (pc);
+    	//PriorityGeneratorPanel priorityGeneratorPanel = new PriorityGeneratorPanel (pc);
     	SummaryPanel summaryPanel = new SummaryPanel (pc);
     	PreviewPane Preview_Tab = new PreviewPane (pc); 
             
     	addPCListener (summaryPanel);
 
-    	generatorTab = new javax.swing.JTabbedPane();
+    	//generatorTab = new javax.swing.JTabbedPane();
 
-    	generatorTab.addTab(
-    			"Priority",
-    			null,
-    			priorityGeneratorPanel,
-    			"Priority based character generation");
-
-    	tabbedPane.addTab(
-    			"Generator",
-    			null,
-    			generatorTab,
-    			"character generation");
+//    	generatorTab.addTab(
+//    			"Priority",
+//    			null,
+//    			priorityGeneratorPanel,
+//    			"Priority based character generation");
+//
+//    	tabbedPane.addTab(
+//    			"Generator",
+//    			null,
+//    			generatorTab,
+//    			"character generation");
 
     	tabbedPane.addTab(
     			"Summary",
@@ -368,7 +408,19 @@ public class SRGenWindow extends JFrame implements PCListener {
     }
 
 
-    
+    private void updateTitle () {
+    	PlayerCharacter pc = getCurrentCharacter();
+    	if (pc != null) {
+    		int index = Generator.getCharacters().indexOf(pc);
+    		String dirty = pc.isDirty() ? "*" : "";
+
+    		allCharsPane.setTitleAt(index, dirty + pc.getString(PlayerCharacter.STR_CHARNAME));
+    		this.setTitle(dirty + pc.getString(PlayerCharacter.STR_CHARNAME)+": "+TITLE);
+    	} else {
+    		this.setTitle(TITLE);    		
+    	}
+    }
+
     /**
      * This method initializes jSplitPane
      *
@@ -422,14 +474,17 @@ public class SRGenWindow extends JFrame implements PCListener {
 
 	@Override
 	public void pcChanged(PlayerCharacter pc) {
-		System.err.println("xxx");
-		int index = Generator.getCharacters().indexOf(pc);
-		allCharsPane.setTitleAt(index, pc.getString(PlayerCharacter.STR_CHARNAME));
+		//System.err.println(pc.isDirty() ? "xxx dirty" : "xxx clean");
+//		int index = Generator.getCharacters().indexOf(pc);
+//		allCharsPane.setTitleAt(index, pc.getString(PlayerCharacter.STR_CHARNAME));
+//		this.setTitle(pc.getString(PlayerCharacter.STR_CHARNAME)+": "+TITLE);
+		updateTitle();
 	}
 
 	@Override
 	public void pcExchanged(PlayerCharacter pc) {
 		// TODO Auto-generated method stub
-		
+		//this.setTitle(pc.getString(PlayerCharacter.STR_CHARNAME)+": "+TITLE);		
+		updateTitle();
 	}
 }
