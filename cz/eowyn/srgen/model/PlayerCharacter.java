@@ -447,7 +447,10 @@ public class PlayerCharacter implements PCAssetListener {
 	}
 	
 	public String getString (int stat) {
-		return (String)stats[stat];
+		if (statDesc[stat].type == SSTR)
+			return (String)stats[stat];
+		else
+			return String.valueOf(stats[stat]);
 	}
 	
 	public void setStat (int stat, int value) {
