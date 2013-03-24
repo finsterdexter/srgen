@@ -56,72 +56,94 @@ public class PlayerCharacter implements PCAssetListener {
 	public static final int STAT_WIL_M2 = 32;
 	public static final int STAT_WIL_M3 = 33;
 	public static final int STAT_WIL = 34;
+
+	// Reaction, initiative, essence and magic is computed 
+	public static final int STAT_REA_BASE = 35;
+	public static final int STAT_REA_M1 = 36;
+	public static final int STAT_REA_M2 = 37;
+	public static final int STAT_REA_M3 = 38;
+	public static final int STAT_REA = 39;
+
+	public static final int STAT_INI_BASE = 40;
+	public static final int STAT_INI_M1 = 41;
+	public static final int STAT_INI_M2 = 42;
+	public static final int STAT_INI_M3 = 43;
+	public static final int STAT_INI = 44;
+
+	public static final int STAT_ESS_BASE = 45;
+	public static final int STAT_ESS_M1 = 46;
+	public static final int STAT_ESS_M2 = 47;
+	public static final int STAT_ESS_M3 = 48;
+	public static final int STAT_ESS = 49;
+
+	public static final int STAT_MAG_BASE = 50;
+	public static final int STAT_MAG_M1 = 51;
+	public static final int STAT_MAG_M2 = 52;
+	public static final int STAT_MAG_M3 = 53;
+	public static final int STAT_MAG = 54;
 	
-	public static final int STAT_ATTR_POINTS_INITIAL = 35;
-	public static final int STAT_ATTR_POINTS_SPENT = 36;
-	public static final int STAT_ATTR_POINTS = 37;
-	public static final int STAT_SKILL_POINTS_INITIAL = 38;
-	public static final int STAT_SKILL_POINTS_SPENT = 39;
-	public static final int STAT_SKILL_POINTS = 40;
-	public static final int STAT_RESOURCES_INITIAL = 41;
-	public static final int STAT_RESOURCES_SPENT = 42;
-	public static final int STAT_RESOURCES = 43;
+	public static final int STAT_ATTR_POINTS_INITIAL = 55;
+	public static final int STAT_ATTR_POINTS_SPENT = 56;
+	public static final int STAT_ATTR_POINTS = 57;
+	public static final int STAT_SKILL_POINTS_INITIAL = 58;
+	public static final int STAT_SKILL_POINTS_SPENT = 59;
+	public static final int STAT_SKILL_POINTS = 60;
+	public static final int STAT_RESOURCES_INITIAL = 61;
+	public static final int STAT_RESOURCES_SPENT = 62;
+	public static final int STAT_RESOURCES = 63;
 
 	
-	public static final int STAT_POOL_KARMA = 44;  // NOTE: computed
-	public static final int STAT_POOL_COMBAT = 45;
-	public static final int STAT_POOL_CONTROL = 46;
-	public static final int STAT_POOL_HACKING = 47;
-	public static final int STAT_POOL_SPELL = 48;
-	public static final int STAT_POOL_TASK = 49;
-	public static final int STAT_POOL_COMBAT_MOD = 50;
+	public static final int STAT_POOL_KARMA = 64;  // NOTE: computed
+	public static final int STAT_POOL_COMBAT = 65;
+	public static final int STAT_POOL_CONTROL = 66;
+	public static final int STAT_POOL_HACKING = 67;
+	public static final int STAT_POOL_SPELL = 68;
+	public static final int STAT_POOL_TASK = 69;
+	public static final int STAT_POOL_COMBAT_MOD = 70;
 
-	public static final int STAT_KARMA_TOTAL = 51;
-	public static final int STAT_KARMA_FREE = 52;
-	public static final int STAT_KARMA_SPENT = 53;
+	public static final int STAT_KARMA_TOTAL = 71;
+	public static final int STAT_KARMA_FREE = 72;
+	public static final int STAT_KARMA_SPENT = 73;
 
-	public static final int STAT_METAHUMAN = 54;
-	public static final int STAT_REACTION = 55;  // NOTE: computed
-	public static final int STAT_MAGICAL = 56;
-	public static final int STAT_ALLOWED_RACES = 57;
-	public static final int STAT_FINALIZED = 58;
+	public static final int STAT_METAHUMAN = 74;
+	public static final int STAT_xxxx = 75;  // FIXME: free to reuse
+	public static final int STAT_MAGICAL = 76;
+	public static final int STAT_ALLOWED_RACES = 77;
+	public static final int STAT_FINALIZED = 78;
 
 	
 	// NOTE: keep the indices, the SR3 importer relies on them!
-	public static final int STR_CHARNAME = 59;
-	public static final int STR_REALNAME = 60;
-	public static final int STR_PLAYERNAME = 61;
+	public static final int STR_CHARNAME = 79;
+	public static final int STR_REALNAME = 80;
+	public static final int STR_PLAYERNAME = 81;
 	// FIXME: use list instead
-	public static final int STR_STREETNAME1 = 62;
-	public static final int STR_STREETNAME2 = 63;
-	public static final int STR_STREETNAME3 = 64;
-	public static final int STR_STREETNAME4 = 65;
-	public static final int STR_STREETNAME5 = 66;
-	public static final int STR_RACE = 67;
-	public static final int STR_AGE = 68;
-	public static final int STR_SEX = 69;
-	public static final int STR_HEIGHT = 70;
-	public static final int STR_WEIGHT = 71;
-	public static final int STR_HAIR = 72;
-	public static final int STR_EYES = 73;
-	public static final int STR_BIRTHDATE = 74;
-	public static final int STR_BIRTHPLACE = 75;
-	public static final int STR_BIRTHNOTES = 76;
-	public static final int STR_NOTES = 77;
-	public static final int STR_ARCHETYPE = 78;
-	public static final int STR_CREATION_DATE = 79;
-	public static final int STR_MOD_DATE = 80;
-	public static final int STR_CREATION_SRDATE = 81;
-	public static final int STR_SRDATE = 82;
-	public static final int STR_IMAGE = 83;
-
-	public static final int STAT_ESSENCE = 84;
-	public static final int STAT_MAGIx = 85;
+	public static final int STR_STREETNAME1 = 82;
+	public static final int STR_STREETNAME2 = 83;
+	public static final int STR_STREETNAME3 = 84;
+	public static final int STR_STREETNAME4 = 85;
+	public static final int STR_STREETNAME5 = 86;
+	public static final int STR_RACE = 87;
+	public static final int STR_AGE = 88;
+	public static final int STR_SEX = 89;
+	public static final int STR_HEIGHT = 90;
+	public static final int STR_WEIGHT = 91;
+	public static final int STR_HAIR = 92;
+	public static final int STR_EYES = 93;
+	public static final int STR_BIRTHDATE = 94;
+	public static final int STR_BIRTHPLACE = 95;
+	public static final int STR_BIRTHNOTES = 96;
+	public static final int STR_NOTES = 97;
+	public static final int STR_ARCHETYPE = 98;
+	public static final int STR_CREATION_DATE = 99;
+	public static final int STR_MOD_DATE = 100;
+	public static final int STR_CREATION_SRDATE = 101;
+	public static final int STR_SRDATE = 102;
+	public static final int STR_IMAGE = 103;
 
 
 	
 	//private static int STR_MAX = STR_IMAGE;
-	private static final int STAT_NUM_ATTRS = 6;
+	private static final int STAT_NUM_ATTRS = 10;
 	private static final int NUM_PRIO = 5;
 
 	//private static final int STAT_MAX = STAT_ALLOWED_RACES;
@@ -180,6 +202,30 @@ public class PlayerCharacter implements PCAssetListener {
 			new Stat(STAT_WIL_M3, "WIL.M3", SINT, "Will M3", ""),
 			new Stat(STAT_WIL, "WIL", SINT, "Will", ""),
 			
+			new Stat(STAT_REA_BASE, "REA.BASE", SINT, "Reaction base", ""),
+			new Stat(STAT_REA_M1, "REA.M1", SINT, "Reaction M1", ""),
+			new Stat(STAT_REA_M2, "REA.M2", SINT, "Reaction M2", ""),
+			new Stat(STAT_REA_M3, "REA.M3", SINT, "Reaction M3", ""),
+			new Stat(STAT_REA, "REA", SINT, "Reaction", ""),
+			
+			new Stat(STAT_INI_BASE, "INI.BASE", SINT, "Initiative base", ""),
+			new Stat(STAT_INI_M1, "INI.M1", SINT, "Initiative M1", ""),
+			new Stat(STAT_INI_M2, "INI.M2", SINT, "Initiative M2", ""),
+			new Stat(STAT_INI_M3, "INI.M3", SINT, "Initiative M3", ""),
+			new Stat(STAT_INI, "INI", SINT, "Initiative", ""),
+			
+			new Stat(STAT_ESS_BASE, "ESS.BASE", SFLOAT, "Essence base", ""),
+			new Stat(STAT_ESS_M1, "ESS.M1", SFLOAT, "Essence M1", ""),
+			new Stat(STAT_ESS_M2, "ESS.M2", SFLOAT, "Essence M2", ""),
+			new Stat(STAT_ESS_M3, "ESS.M3", SFLOAT, "Essence M3", ""),
+			new Stat(STAT_ESS, "ESS", SFLOAT, "Essence", ""),
+			
+			new Stat(STAT_MAG_BASE, "MAG.BASE", SINT, "Magic base", ""),
+			new Stat(STAT_MAG_M1, "MAG.M1", SINT, "Magic M1", ""),
+			new Stat(STAT_MAG_M2, "MAG.M2", SINT, "Magic M2", ""),
+			new Stat(STAT_MAG_M3, "MAG.M3", SINT, "Magic M3", ""),
+			new Stat(STAT_MAG, "MAG", SINT, "Magic", ""),
+			
 			new Stat(STAT_ATTR_POINTS_INITIAL, "ATTR_POINTS_INITIAL", SINT, "Attr. points initial", ""),
 			new Stat(STAT_ATTR_POINTS_SPENT, "ATTR_POINTS_SPENT", SINT, "Attr. points spent", ""),
 			new Stat(STAT_ATTR_POINTS, "ATTR_POINTS", SINT, "Attr. points", ""),
@@ -203,7 +249,7 @@ public class PlayerCharacter implements PCAssetListener {
 			new Stat(STAT_KARMA_SPENT, "KARMA.SPENT", SINT, "Spent karma", ""),
 			
 			new Stat(STAT_METAHUMAN, "METAHUMAN", SINT, "Metahuman", ""),
-			new Stat(STAT_REACTION, "REACTION", SINT, "Reaction", ""),
+			new Stat(STAT_xxxx, "xxxx", SINT, "xxxx", ""),
 			new Stat(STAT_MAGICAL, "MAGICAL", SINT, "Magic user", ""),
 			new Stat(STAT_ALLOWED_RACES, "ALLOWED_RACES", SINT, "Allowed races", ""),
 			new Stat(STAT_FINALIZED, "FINALIZED", SINT, "Finalized", ""),
@@ -234,8 +280,6 @@ public class PlayerCharacter implements PCAssetListener {
 			new Stat(STR_SRDATE, "SRDATE", SSTR, "Current SR date", ""),
 			new Stat(STR_IMAGE, "IMAGE", SSTR, "Image", ""),
 
-			new Stat(STAT_ESSENCE, "ESSENCE", SFLOAT, "Essence", ""),
-			new Stat(STAT_MAGIx, "MAGIC", SINT, "Magic", ""),
 	};
 	
 	private ArrayList<PCListener> listeners = new ArrayList<PCListener> (10);
@@ -262,6 +306,7 @@ public class PlayerCharacter implements PCAssetListener {
 	private RepositoryList<Lifestyle> lifestyles;
 	private RepositoryList<Credstick> credsticks;
 	
+	private ArrayList<String> logs;
 
 	private boolean isDirty = false;
 	private boolean signalActive = false;
@@ -332,15 +377,21 @@ public class PlayerCharacter implements PCAssetListener {
 	public void recompute () {
 		computeInitialResources ();
 		
-		setFloat (STAT_ESSENCE, 6.0); // FIXME: cyberware etc.
-		setStat (STAT_MAGIx, (getInt (STAT_MAGICAL) != 0) ? getInt (STAT_ESSENCE) : 0); // this rounds the float down
-		setStat (STAT_REACTION, getReaction ());
-		setStat (STAT_POOL_KARMA, getKarmaPool ());
-		setStat (STAT_POOL_COMBAT, getCombatPool ());
+		setStat (STAT_REA_BASE, getReaction ());
+
+		
+		
+		setFloat (STAT_ESS, getFloat (STAT_ESS_BASE) + getFloat (STAT_ESS_M1) + getFloat (STAT_ESS_M2) + getFloat (STAT_ESS_M3));
+		setStat (STAT_MAG_BASE, (getInt (STAT_MAGICAL) != 0) ? getInt (STAT_ESS) : 0); // this rounds the float down
 
 		for (int i = 0; i < STAT_NUM_ATTRS * 5; i += 5) {
-			setStat (STAT_ATTR + i, getInt (STAT_ATTR_BASE + i) + getInt (STAT_ATTR_M1 + i) + getInt (STAT_ATTR_M2 + i) + getInt (STAT_ATTR_M3 + i));
+			if (STAT_ATTR + i != STAT_ESS)
+				setStat (STAT_ATTR + i, getInt (STAT_ATTR_BASE + i) + getInt (STAT_ATTR_M1 + i) + getInt (STAT_ATTR_M2 + i) + getInt (STAT_ATTR_M3 + i));
 		}
+
+
+		setStat (STAT_POOL_KARMA, getKarmaPool ());
+		setStat (STAT_POOL_COMBAT, getCombatPool ());
 	}
 	
 	private void computeInitialResources () {
@@ -354,6 +405,8 @@ public class PlayerCharacter implements PCAssetListener {
 		for (int i = 0; i < STAT_NUM_ATTRS * 5; i += 5) {
 			attr_points_spent += getInt (STAT_ATTR_BASE + i);
 		}
+
+		setFloat (STAT_ESS_BASE, 6.0); // FIXME: cyberware etc.
 
 		setStat (STAT_ATTR_POINTS_INITIAL, attr_points[getInt(PRIO_ATTRS)]);
 		setStat (STAT_ATTR_POINTS, getInt(STAT_ATTR_POINTS_INITIAL) - getInt(STAT_ATTR_POINTS_SPENT));
@@ -377,10 +430,23 @@ public class PlayerCharacter implements PCAssetListener {
 		return (getInt (STAT_INT) + getInt (STAT_QCK) + getInt (STAT_WIL)) / 2;
 	}
 
-	public boolean isValid () {
+	// Checks made before the char is finalized
+	public boolean isValidUnfinalizedChar() {
+		// ...
+		// check item rating and availability
+		// check ammo?
+		// check has lifestyle
 		return true;
 	}
 	
+	public boolean isValid () {
+		return getInt (STAT_BOD) > 4; // just a test
+	}
+	
+	// beware of Object.finalize()!
+	public boolean finalizeChar () {
+		return true;
+	}
 	
 	public void addListener (PCListener ls) {
 		if (! listeners.contains(ls)) {
@@ -451,6 +517,15 @@ public class PlayerCharacter implements PCAssetListener {
 			return (String)stats[stat];
 		else
 			return String.valueOf(stats[stat]);
+	}
+	
+	public double getFloat (int stat) {
+		if (statDesc[stat].type == SFLOAT)
+			return (Double)stats[stat];
+		else if (statDesc[stat].type == SINT)
+			return Double.valueOf((Integer)stats[stat]);
+		else
+			return Double.valueOf((String)stats[stat]);
 	}
 	
 	public void setStat (int stat, int value) {

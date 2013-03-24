@@ -32,6 +32,7 @@ public class AttributeTable extends JPanel{
         this.setLayout(new BorderLayout());
         
         table = getTable ();
+        table.setRowHeight((int)(table.getRowHeight()*1.3));
         
         this.add(table.getTableHeader(), BorderLayout.PAGE_START);
         this.add(table, BorderLayout.CENTER);
@@ -56,12 +57,16 @@ public class AttributeTable extends JPanel{
         			"Strength", 
         			"Charisma", 
         			"Intelligence", 
-        			"Willpower" };
+        			"Willpower",
+        			"Reaction",
+        			"Initiative",
+        			"Essence",
+        			"Magic"};
         	
 
         	
         	public int getColumnCount() { return 8; }
-            public int getRowCount() { return 6;}
+            public int getRowCount() { return data.length;}
             public Object getValueAt(final int row, final int col) {
             	switch (col) {
             	case 0: return data[row];
@@ -76,6 +81,8 @@ public class AttributeTable extends JPanel{
             				}
             			}
             		});
+            		//if (row >= 6)
+            		//butPlus.setVisible(false);
             		return butPlus;
             	case 7:
             		final JButton butMinus = new JButton("-");
@@ -88,6 +95,8 @@ public class AttributeTable extends JPanel{
             				}
             			}
             		});
+            		//if (row >= 6)
+            		//	butMinus.setVisible(false);
             		return butMinus;
             	default:
             		// FIXME: 5 is ugly hardwired
@@ -98,7 +107,7 @@ public class AttributeTable extends JPanel{
                 return columnNames[col];
             }
             public boolean isCellEditable(int row, int col) {
-            	return (col != 0 && col < 5);
+            	return (col != 0 && col < 5 && row < 6);
             }
 
             public Class getColumnClass(int col) {
@@ -126,6 +135,9 @@ public class AttributeTable extends JPanel{
 		TableCellRenderer buttonRenderer = new JTableButtonRenderer();
 		table.getColumn("+").setCellRenderer(buttonRenderer);
 		table.getColumn("-").setCellRenderer(buttonRenderer);
+		int w = table.getColumn("Base").getWidth() / 2;
+		table.getColumn("+").setMaxWidth(w);
+		table.getColumn("-").setMaxWidth(w);
 		table.addMouseListener(new JTableButtonMouseListener(table));
 		return table;
     }
@@ -147,6 +159,8 @@ public class AttributeTable extends JPanel{
 		    	button.setForeground(table.getForeground());
 		    	button.setBackground(UIManager.getColor("Button.background"));
 		    }
+			//button.setVisible(row < 6);
+			button.setEnabled(row < 6);
 			return button;	
 		}
 	}

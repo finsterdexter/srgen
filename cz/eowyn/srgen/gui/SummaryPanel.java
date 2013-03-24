@@ -39,7 +39,7 @@ public class SummaryPanel extends JPanel implements cz.eowyn.srgen.model.PCListe
 	private JTextField resourcesLabel = null;
 	private JTextField magicLabel = null;
 	private JTextField racesLabel = null;
-	private JTextField reactionLabel = null;
+	//private JTextField reactionLabel = null;
 	private JTextField creationDateLabel = null;
 	private JTextField modifiedDateLabel = null;
 	private AttributeTable attributeTable = null;
@@ -81,15 +81,15 @@ public class SummaryPanel extends JPanel implements cz.eowyn.srgen.model.PCListe
 		attrPointsLabel = getLabelEntry ("Attribute points", pc.STAT_ATTR_POINTS, "cell 2 9", "cell 3 9", this);
 		skillPointsLabel = getLabelEntry ("Skill points", pc.STAT_SKILL_POINTS, "cell 2 10", "cell 3 10", this);
 		resourcesLabel = getLabelEntry ("Resources", pc.STAT_RESOURCES, "cell 2 11", "cell 3 11", this);
-		magicLabel = getLabelEntry ("Magic", pc.STAT_MAGICAL, "cell 2 12", "cell 3 12", this);
+		magicLabel = getLabelEntry ("Magical", pc.STAT_MAGICAL, "cell 2 12", "cell 3 12", this);
 		racesLabel = getLabelEntry ("Races", pc.STAT_ALLOWED_RACES, "cell 2 13", "cell 3 13", this);
 
-		reactionLabel = getLabelEntry ("Reaction", pc.STAT_REACTION, "cell 2 14", "cell 3 14", this);
 
 		attributeTable = new AttributeTable (pc);
-		this.add(attributeTable, "cell 0 15 4 4");
+		this.add(attributeTable, "cell 0 15 4 7");
 		//this.add(new PriorityTable(pc));
 
+		this.add(new InvalidWarningPane (pc), "cell 0 22 6 1");
 		
 		// commonPanel.add(getNew_radiobutton(), null);
 		// commonPanel.add(getAdd_radiobutton(), null);
@@ -142,8 +142,6 @@ public class SummaryPanel extends JPanel implements cz.eowyn.srgen.model.PCListe
 		owner.add (label, constraintLabel);
     }
 
-    
-    
     public void pcChanged (PlayerCharacter pc) {
     	System.err.println("SummaryPanel::pcChanged: " + String.valueOf(inUpdate));
     	if (inUpdate)
@@ -167,7 +165,7 @@ public class SummaryPanel extends JPanel implements cz.eowyn.srgen.model.PCListe
         resourcesLabel.setText (String.valueOf (pc.getInt(PlayerCharacter.STAT_RESOURCES) + "\u00A5"));
         //magicLabel.setText (String.valueOf (pc.getInt(PlayerCharacter.STAT_MAGIC)));
         //racesLabel.setText (String.valueOf (pc.getInt(PlayerCharacter.STAT_ALLOWED_RACES)));
-    	reactionLabel.setText (String.valueOf (pc.getReaction()));
+    	//reactionLabel.setText (String.valueOf (pc.getReaction()));
     	creationDateLabel.setText (pc.getString (PlayerCharacter.STR_CREATION_DATE));
     	modifiedDateLabel.setText (pc.getString (PlayerCharacter.STR_MOD_DATE));
     	

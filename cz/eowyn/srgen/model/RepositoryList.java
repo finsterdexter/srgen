@@ -45,12 +45,12 @@ public class RepositoryList<R extends RepositoryObject> extends ArrayList<R> {
 			System.err.println("    listener ...");
 			
 			PCAssetListener ls = iter.next ();
-			try {
+			//try {
 				ls.pcAssetChanged(pc, this);
-			}
-			catch (Exception e) {
+			//}
+			//catch (Exception e) {
 				// FIXME: don't catch or at least not all
-			}
+			//}
 		}
 	}
 
